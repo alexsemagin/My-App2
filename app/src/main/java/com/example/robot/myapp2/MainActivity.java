@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity implements FillEditText{
 
     private FragmentManager fm;
     private FragmentTransaction ft;
-    private static ImageView imageBack;
 
     @Override
     public void fillEditText(String title, String discription) {
