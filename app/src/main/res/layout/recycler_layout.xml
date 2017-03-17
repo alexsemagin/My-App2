@@ -7,6 +7,6 @@
     android:scrollbars="vertical"
     android:scrollbarThumbVertical="@android:color/darker_gray"
     android:scrollbarSize="5dp"
-    tools:context="com.example.robot.myapp2.MainActivity">
+    tools:context="com.example.robot.myapp2.ui.MainActivity">
 
 </android.support.v7.widget.RecyclerView>
