@@ -9,7 +9,7 @@ public class ModelItem {
     private String title;
     private String discription;
 
-    public ModelItem(String title, String discription){
+    private ModelItem(String title, String discription){
         this.title = title;
         this.discription = discription;
     }
@@ -21,7 +21,6 @@ public class ModelItem {
     public String getMyDetail(){
         return discription;
     }
-
 
     public static List<ModelItem> getFakeItems(){
         ArrayList<ModelItem> itemList = new ArrayList<>();

@@ -11,10 +11,15 @@ import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailsFragment extends Fragment {
 
-    private static TextView tvDetail;
-    private static Toolbar toolbar;
+    @BindView(R.id.textView) TextView tvDetail;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    private static final String TITLE = "title";
+    private static final String DETAIL = "detail";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,16 +28,15 @@ public class DetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.details, container, false);
-        return v;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.details, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvDetail = (TextView) view.findViewById(R.id.textView);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +44,7 @@ public class DetailsFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit();
             }
         });
-        savedInstanceState = getArguments();
-        toolbar.setTitle(savedInstanceState.getString("title"));
-        tvDetail.setText(savedInstanceState.getString("detail"));
+        toolbar.setTitle(getArguments().getString(TITLE));
+        tvDetail.setText(getArguments().getString(DETAIL));
     }
 }

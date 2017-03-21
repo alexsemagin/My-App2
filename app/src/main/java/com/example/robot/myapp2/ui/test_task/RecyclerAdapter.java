@@ -13,27 +13,19 @@ import com.example.robot.myapp2.model.ModelItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by semaal on 20.03.2017.
- */
-
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
     private ArrayList<ModelItem> items = new ArrayList<>();
-    public Activity context;
+    private Activity context;
 
     private OnItemSelected itemSelected;
 
-    public interface OnItemSelected {
-        void onItemSelected(String title, String info);
-    }
-
-    public RecyclerAdapter(Activity context, OnItemSelected itemSelected) {
+    RecyclerAdapter(Activity context, OnItemSelected itemSelected) {
         this.context = context;
         this.itemSelected = itemSelected;
     }
 
-    public void addAll(List<ModelItem> fakeItems) {
+    void setList(List<ModelItem> fakeItems) {
         int pos = getItemCount();
         this.items.addAll(fakeItems);
         notifyItemRangeInserted(pos, this.items.size());
@@ -55,19 +47,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         return items.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView title;
         private TextView detail;
 
-        public RecyclerViewHolder(View itemView) {
+        RecyclerViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.item_title);
             detail = (TextView) itemView.findViewById(R.id.item_detail);
             itemView.setOnClickListener(this);
         }
 
-        public void bind(ModelItem modelItem) {
+        void bind(ModelItem modelItem) {
             title.setText(modelItem.getMyTitle());
             detail.setText(modelItem.getMyDetail());
         }
@@ -77,4 +70,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             itemSelected.onItemSelected(title.getText().toString(), detail.getText().toString());
         }
     }
+
+    interface OnItemSelected {
+        void onItemSelected(String title, String info);
+    }
+
 }
