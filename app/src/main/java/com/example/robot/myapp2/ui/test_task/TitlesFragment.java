@@ -47,12 +47,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         rAdapter.setList(ModelItem.getFakeItems());
     }
 
