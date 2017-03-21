@@ -3,32 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.example.robot.myapp2.ui.MainActivity"
-    android:background="#f0f0f0">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.robot.myapp2.ui.MainActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <include
-            layout="@layout/toolbar" />
+        <include layout="@layout/toolbar" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/cardview_light_background" >
 
-        <TextView
-            android:id="@+id/textView"
-            android:text="Detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="36sp"
-            tools:text="Detail" />
+            <TextView
+                android:id="@+id/textView"
+                android:text="@string/detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="36sp"
+                tools:text="Detail" />
 
-    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

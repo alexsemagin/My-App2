@@ -39,7 +39,7 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
-        toolbar.setTitle(getArguments().getString(TITLE));
-        tvDetail.setText(getArguments().getString(DETAIL));
+        toolbar.setTitle(getArguments()==null? TITLE : getArguments().getString(TITLE));
+        tvDetail.setText(getArguments()==null? DETAIL : getArguments().getString(DETAIL));
     }
 }

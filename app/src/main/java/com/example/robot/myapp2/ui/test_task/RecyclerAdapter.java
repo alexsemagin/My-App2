@@ -21,7 +21,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
     private ArrayList<ModelItem> items = new ArrayList<>();
     private Activity context;
-
     private OnItemSelected itemSelected;
 
     RecyclerAdapter(Activity context, OnItemSelected itemSelected) {
@@ -50,7 +49,6 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
     public int getItemCount() {
         return items.size();
     }
-
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

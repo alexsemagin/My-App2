@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Fragment tit = getSupportFragmentManager().findFragmentById(R.id.container2);
         if (tit != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             getSupportFragmentManager().beginTransaction().remove(tit).commit();
-        } else {
-            super.onBackPressed();
-        }
+        } else super.onBackPressed();
     }
 }
