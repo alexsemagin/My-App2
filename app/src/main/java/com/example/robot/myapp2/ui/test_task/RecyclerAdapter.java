@@ -13,6 +13,10 @@ import com.example.robot.myapp2.model.ModelItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
     private ArrayList<ModelItem> items = new ArrayList<>();
@@ -50,14 +54,12 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView title;
-        private TextView detail;
+        @BindView(R.id.item_title) TextView title;
+        @BindView(R.id.item_detail) TextView detail;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.item_title);
-            detail = (TextView) itemView.findViewById(R.id.item_detail);
-            itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
         }
 
         void bind(ModelItem modelItem) {
@@ -65,7 +67,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
             detail.setText(modelItem.getMyDetail());
         }
 
-        @Override
+        @OnClick(R.id.card_content)
         public void onClick(View view) {
             itemSelected.onItemSelected(title.getText().toString(), detail.getText().toString());
         }
