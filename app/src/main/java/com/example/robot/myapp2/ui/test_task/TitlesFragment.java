@@ -23,6 +23,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     private RecyclerAdapter rAdapter;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
+    
     Toolbar toolbar;
 
     @Override
