@@ -29,6 +29,7 @@
                 android:id="@+id/imageView" />
 
             <LinearLayout
+                android:id="@+id/linear"
                 android:paddingLeft="8dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="Detail"
                     android:layout_weight="1"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

@@ -25,7 +25,8 @@ public class ModelItem {
     public static List<ModelItem> getFakeItems(){
         ArrayList<ModelItem> itemList = new ArrayList<>();
         for(int i=1;i<101;i++){
-            itemList.add(new ModelItem("Title"+i, "Discription"+i));
+            if(i % 2 == 0) itemList.add(new ModelItem("Title"+i, "Discription"+i));
+            else itemList.add(new ModelItem("Title"+i, ""));
         }
         return itemList;
     }

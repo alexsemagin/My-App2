@@ -62,7 +62,9 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
         void bind(ModelItem modelItem) {
             title.setText(modelItem.getMyTitle());
-            detail.setText(modelItem.getMyDetail());
+            String temp = modelItem.getMyDetail();
+            if(temp.equals("")) detail.setVisibility(View.GONE);
+            else detail.setText(modelItem.getMyDetail());
         }
 
         @OnClick(R.id.card_content)
