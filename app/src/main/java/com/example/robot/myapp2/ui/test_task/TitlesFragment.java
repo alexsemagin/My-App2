@@ -44,6 +44,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(1));
         recyclerView.setAdapter(rAdapter);
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
