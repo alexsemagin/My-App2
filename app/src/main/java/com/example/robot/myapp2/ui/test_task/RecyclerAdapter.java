@@ -52,8 +52,10 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.item_title) TextView title;
-        @BindView(R.id.item_detail) TextView detail;
+        @BindView(R.id.item_title)
+        TextView title;
+        @BindView(R.id.item_detail)
+        TextView detail;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -63,8 +65,8 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
         void bind(ModelItem modelItem) {
             title.setText(modelItem.getMyTitle());
             String temp = modelItem.getMyDetail();
-            if(temp.equals("")) detail.setVisibility(View.GONE);
-            else detail.setText(modelItem.getMyDetail());
+            detail.setVisibility(temp.equals("") ? View.GONE : View.VISIBLE);
+            detail.setText(modelItem.getMyDetail());
         }
 
         @OnClick(R.id.card_content)

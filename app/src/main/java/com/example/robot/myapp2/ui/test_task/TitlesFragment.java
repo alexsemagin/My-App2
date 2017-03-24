@@ -19,11 +19,12 @@ import butterknife.ButterKnife;
 
 public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSelected {
 
-    @BindView(R.id.recycler) RecyclerView recyclerView;
+    @BindView(R.id.recycler)
+    RecyclerView recyclerView;
     private RecyclerAdapter rAdapter;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
-    
+
     Toolbar toolbar;
 
     @Override
@@ -31,6 +32,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         rAdapter = new RecyclerAdapter(getActivity(), this);
+        rAdapter.setList(ModelItem.getFakeItems(getActivity()));
     }
 
     @Override
@@ -45,11 +47,10 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(rAdapter);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar = ButterKnife.findById(getActivity(), R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
-        rAdapter.setList(ModelItem.getFakeItems(getActivity()));
     }
 
     @Override

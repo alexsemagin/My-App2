@@ -16,8 +16,10 @@ import butterknife.ButterKnife;
 
 public class DetailsFragment extends Fragment {
 
-    @BindView(R.id.textView) TextView tvDetail;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.textView)
+    TextView tvDetail;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
 
@@ -39,7 +41,7 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
-        toolbar.setTitle(getArguments()==null? TITLE : getArguments().getString(TITLE));
-        tvDetail.setText(getArguments()==null? DETAIL : getArguments().getString(DETAIL));
+        toolbar.setTitle(getArguments() == null ? TITLE : getArguments().getString(TITLE));
+        tvDetail.setText(getArguments() == null ? DETAIL : getArguments().getString(DETAIL));
     }
 }

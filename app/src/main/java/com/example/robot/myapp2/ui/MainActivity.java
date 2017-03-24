@@ -16,9 +16,12 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.container) FrameLayout container;
-    @BindView(R.id.container2) FrameLayout container2;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.container)
+    FrameLayout container;
+    @BindView(R.id.container2)
+    FrameLayout container2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
