@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@color/cardview_light_background" >
+        android:background="@color/cardview_light_background"
+        android:padding="16dp" >
 
             <TextView
                 android:id="@+id/textView"
