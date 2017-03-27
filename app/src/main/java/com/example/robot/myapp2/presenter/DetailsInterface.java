@@ -4,10 +4,8 @@ package com.example.robot.myapp2.presenter;
  * Created by semaal on 27.03.2017.
  */
 
-public interface MyInterface {
+public interface DetailsInterface {
 
-    void method1();
-
-    void method2();
+    void setTitleAndDetail(String title, String detail);
 
 }

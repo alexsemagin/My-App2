@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
-import com.example.robot.myapp2.presenter.MyInterface;
-import com.example.robot.myapp2.presenter.Presenter;
+import com.example.robot.myapp2.presenter.DetailsInterface;
+import com.example.robot.myapp2.presenter.DetailsPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsFragment extends Fragment implements MyInterface{
+public class DetailsFragment extends Fragment implements DetailsInterface {
 
     @BindView(R.id.textView)
     TextView tvDetail;
@@ -24,11 +24,14 @@ public class DetailsFragment extends Fragment implements MyInterface{
     Toolbar toolbar;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
+    DetailsPresenter mdetailsPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Presenter pr = new Presenter();
+        String title = getArguments() == null ? TITLE : getArguments().getString(TITLE);
+        String detail = getArguments() == null ? DETAIL : getArguments().getString(DETAIL);
+        mdetailsPresenter = new DetailsPresenter(title, detail);
         setRetainInstance(true);
     }
 
@@ -44,22 +47,19 @@ public class DetailsFragment extends Fragment implements MyInterface{
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
-        toolbar.setTitle(getArguments() == null ? TITLE : getArguments().getString(TITLE));
-        tvDetail.setText(getArguments() == null ? DETAIL : getArguments().getString(DETAIL));
+        mdetailsPresenter.setView(this);
+        mdetailsPresenter.setData();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mdetailsPresenter.setView(null);
     }
 
     @Override
-    public void method1() {
-
-    }
-
-    @Override
-    public void method2() {
-
+    public void setTitleAndDetail(String title, String detail) {
+        toolbar.setTitle(title);
+        tvDetail.setText(detail);
     }
 }

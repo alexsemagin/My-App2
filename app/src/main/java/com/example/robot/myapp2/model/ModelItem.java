@@ -37,4 +37,14 @@ public class ModelItem {
         return itemList;
     }
 
+    public static List<ModelItem> getFakeItems() {
+        ArrayList<ModelItem> itemList = new ArrayList<>();
+        for (int i = 1; i < 101; i++) {
+            if (i % 2 == 0)
+                itemList.add(new ModelItem(i + ". Title", i + ". Detail"));
+            else
+                itemList.add(new ModelItem(i + ". Title", ""));
+        }
+        return itemList;
+    }
 }
