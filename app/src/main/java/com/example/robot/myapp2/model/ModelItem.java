@@ -30,9 +30,9 @@ public class ModelItem {
         ArrayList<ModelItem> itemList = new ArrayList<>();
         for (int i = 1; i < 101; i++) {
             if (i % 2 == 0)
-                itemList.add(new ModelItem(i + "." + activity.getResources().getString(R.string.title), i + "." + activity.getResources().getString(R.string.detail)));
+                itemList.add(new ModelItem(i + "." + activity.getResources().getString(R.string.long_title), i + "." + activity.getResources().getString(R.string.detail)));
             else
-                itemList.add(new ModelItem(i + "." + activity.getResources().getString(R.string.title), ""));
+                itemList.add(new ModelItem(i + "." + activity.getResources().getString(R.string.short_title), ""));
         }
         return itemList;
     }

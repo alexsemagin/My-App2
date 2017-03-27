@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.MyInterface;
+import com.example.robot.myapp2.presenter.Presenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends Fragment implements MyInterface{
 
     @BindView(R.id.textView)
     TextView tvDetail;
@@ -26,6 +28,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Presenter pr = new Presenter();
         setRetainInstance(true);
     }
 
@@ -43,5 +46,20 @@ public class DetailsFragment extends Fragment {
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
         toolbar.setTitle(getArguments() == null ? TITLE : getArguments().getString(TITLE));
         tvDetail.setText(getArguments() == null ? DETAIL : getArguments().getString(DETAIL));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void method1() {
+
+    }
+
+    @Override
+    public void method2() {
+
     }
 }

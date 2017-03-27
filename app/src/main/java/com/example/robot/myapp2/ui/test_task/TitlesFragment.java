@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.model.ModelItem;
+import com.example.robot.myapp2.presenter.MyInterface;
+import com.example.robot.myapp2.presenter.Presenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSelected {
+public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSelected, MyInterface {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
@@ -30,6 +32,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Presenter pr = new Presenter();
         setRetainInstance(true);
         rAdapter = new RecyclerAdapter(getActivity(), this);
         rAdapter.setList(ModelItem.getFakeItems(getActivity()));
@@ -64,4 +67,18 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         ft.replace(R.id.container2, det, DetailsFragment.class.getName()).commit();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void method1() {
+
+    }
+
+    @Override
+    public void method2() {
+
+    }
 }
