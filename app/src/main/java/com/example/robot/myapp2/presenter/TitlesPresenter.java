@@ -1,5 +1,7 @@
 package com.example.robot.myapp2.presenter;
 
+import android.util.Log;
+
 import com.example.robot.myapp2.model.ModelItem;
 
 import java.util.List;
@@ -11,15 +13,16 @@ import java.util.List;
 public class TitlesPresenter {
 
     private TitlesInterface titlesInterface;
+    private List<ModelItem> list;
 
     public void setView(TitlesInterface titlesInterface) {
         this.titlesInterface = titlesInterface;
     }
 
     public void getData() {
-        List<ModelItem> list = ModelItem.getFakeItems();
-        if (titlesInterface != null) {
-            titlesInterface.setList(list);
+        if (list == null) {
+            list = ModelItem.getFakeItems();
+            if (titlesInterface != null) titlesInterface.setList(list);
         }
     }
 
