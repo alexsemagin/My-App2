@@ -24,7 +24,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     Toolbar toolbar;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
-    DetailsPresenter mdetailsPresenter;
+    private DetailsPresenter mdetailsPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

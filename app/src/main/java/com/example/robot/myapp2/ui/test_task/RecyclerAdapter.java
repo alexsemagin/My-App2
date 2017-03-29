@@ -2,13 +2,16 @@ package com.example.robot.myapp2.ui.test_task;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.model.ModelItem;
+import com.example.robot.myapp2.presenter.TitlesPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
-    private ArrayList<ModelItem> items = new ArrayList<>();
+    private static List<ModelItem> items = new ArrayList<>();
     private Activity context;
     private OnItemSelected itemSelected;
 
@@ -30,7 +33,7 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
     void setList(List<ModelItem> fakeItems) {
         int pos = getItemCount();
-        this.items.addAll(fakeItems);
+        items = fakeItems;
         notifyItemRangeInserted(pos, this.items.size());
     }
 
@@ -79,4 +82,48 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
         void onItemSelected(String title, String info);
     }
 
+    public static class MyFilter extends Filter {
+
+        private final List<ModelItem> originalList;
+        private final List<ModelItem> filteredList;
+        private final TitlesPresenter titlesPresenter;
+
+        public MyFilter(TitlesPresenter titlesPresenter, List<ModelItem> list) {
+            super();
+            this.titlesPresenter = titlesPresenter;
+            this.originalList = list;
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            filteredList.clear();
+            final FilterResults results = new FilterResults();
+
+            if (charSequence.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (int i=0; i< originalList.size();i++){
+                    if (originalList.get(i).getMyTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(originalList.get(i));
+                    }
+                }
+            }
+
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            //items.clear();
+            //items.addAll((List<ModelItem>)filterResults.values);
+            //Log.d("tag", (List<ModelItem>)filterResults.values+"");
+            titlesPresenter.updateList((List<ModelItem>)filterResults.values);
+        }
+    }
 }
+

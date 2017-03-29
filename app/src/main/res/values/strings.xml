@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">My App2</string>
-    <string name="detail">DetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetailDetail</string>
-    <string name="long_title">TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle</string>
-    <string name="short_title">Title</string>
+    <string name="search_hint">Поиск</string>
 </resources>
 
