@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
+        app:contentInsetLeft="@dimen/material_layout_app_bar_title_left_padding"
+        app:contentInsetStart="@dimen/material_layout_app_bar_title_left_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:titleTextColor="@color/cardview_light_background">
 

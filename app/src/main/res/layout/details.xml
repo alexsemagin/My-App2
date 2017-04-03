@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="36sp"
-            tools:text="Detail"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:text="Detail" />
 
     </android.support.v4.widget.NestedScrollView>
 

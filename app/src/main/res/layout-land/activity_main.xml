@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/cardview_light_background"
     tools:context="com.example.robot.myapp2.ui.MainActivity">
 
     <android.support.design.widget.AppBarLayout

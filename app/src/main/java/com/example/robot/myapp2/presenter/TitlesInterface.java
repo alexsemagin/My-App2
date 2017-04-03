@@ -7,4 +7,6 @@ public interface TitlesInterface {
     void setList(List list);
 
     void openNewFragment(String title, String detail);
+
+    void progressBarDoVisible(int visibility);
 }

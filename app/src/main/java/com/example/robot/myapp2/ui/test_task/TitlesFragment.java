@@ -1,6 +1,6 @@
 package com.example.robot.myapp2.ui.test_task;
 
-import android.graphics.Color;
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.TitlesInterface;
@@ -33,6 +37,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
     private TitlesPresenter mtitlesPresenter;
+    ProgressBar progressBar;
 
     Toolbar toolbar;
 
@@ -54,18 +59,33 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(rAdapter);
+
         toolbar = ButterKnife.findById(getActivity(), R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.inflateMenu(R.menu.menu_activity_main);
+
         MenuItem searchMenuItem = toolbar.getMenu().findItem(R.id.action_search);
         SearchView sv = (SearchView) searchMenuItem.getActionView();
-        ImageView searchCloseIcon = (ImageView)sv.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
-        searchCloseIcon.setImageResource(R.drawable.ic_toolbar_clear);
         sv.setOnQueryTextListener(this);
+
+        MenuItem sortByName = toolbar.getMenu().findItem(R.id.sort_by_name);
+        sortByName.setOnMenuItemClickListener(item -> {
+            mtitlesPresenter.sortByName();
+            return false;
+        });
+
+        MenuItem sortTimeMenuItem = toolbar.getMenu().findItem(R.id.sort_by_time);
+        sortTimeMenuItem.setOnMenuItemClickListener(item -> {
+            mtitlesPresenter.sortByTime();
+            return false;
+        });
+
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
         mtitlesPresenter.setView(this);
         mtitlesPresenter.getData();
     }
@@ -86,6 +106,11 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     }
 
     @Override
+    public void progressBarDoVisible(int visibility) {
+        progressBar.setVisibility(visibility);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mtitlesPresenter.setView(null);
@@ -93,7 +118,9 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     @Override
     public void setList(List list) {
-        rAdapter.setList(list);
+        getActivity().runOnUiThread(() -> {
+            rAdapter.setList(list);
+        });
     }
 
     @Override

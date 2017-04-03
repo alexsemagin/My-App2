@@ -1,12 +1,17 @@
 package com.example.robot.myapp2.presenter;
 
-import android.util.Log;
+import android.view.View;
 import android.widget.Filter;
 
 import com.example.robot.myapp2.model.ModelItem;
 import com.example.robot.myapp2.ui.test_task.RecyclerAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TitlesPresenter {
 
@@ -16,9 +21,11 @@ public class TitlesPresenter {
     private RecyclerAdapter mAdapter;
     private RecyclerAdapter.MyFilter filter;
     private String query;
+    private ExecutorService ex;
 
-    public TitlesPresenter(RecyclerAdapter mAdapter){
+    public TitlesPresenter(RecyclerAdapter mAdapter) {
         this.mAdapter = mAdapter;
+        ex = Executors.newSingleThreadExecutor();
     }
 
     public void setView(TitlesInterface titlesInterface) {
@@ -26,16 +33,10 @@ public class TitlesPresenter {
     }
 
     public void getData() {
-            if(newList==null) {
-                Log.d("tag","new = null");
-                list = ModelItem.getFakeItems();
-                if (titlesInterface != null) titlesInterface.setList(list);
-            }
-            else {
-                titlesInterface.setList(newList);
-                Log.d("tag","vse ok");
-            }
-        mAdapter.notifyDataSetChanged();
+        if (newList == null) {
+            list = ModelItem.getFakeItems();
+            if (titlesInterface != null) titlesInterface.setList(list);
+        } else titlesInterface.setList(newList);
     }
 
     public void onItemSelected(String title, String detail) {
@@ -44,19 +45,29 @@ public class TitlesPresenter {
 
     public void searchItem(String query) {
         this.query = query;
-        getFilter().filter(query);
-        getData();
+        Filter filter = getFilter();
+        titlesInterface.progressBarDoVisible(View.VISIBLE);
+        ex.execute(() -> filter.filter(query));
     }
 
     public void updateList(List<ModelItem> list) {
-        Log.d("tag","update");
         this.newList = list;
+        titlesInterface.progressBarDoVisible(View.INVISIBLE);
+        getData();
     }
 
-    public Filter getFilter() {
-        if (filter == null) {
-            filter = new RecyclerAdapter.MyFilter(this, list);
-        }
+    private Filter getFilter() {
+        if (filter == null) filter = new RecyclerAdapter.MyFilter(this, list);
         return filter;
+    }
+
+    public void sortByName() {
+        Collections.sort(newList, (o1, o2) -> o1.getMyTitle().compareTo(o2.getMyTitle()));
+        titlesInterface.setList(list);
+    }
+
+    public void sortByTime() {
+        Collections.sort(newList, (o1, o2) -> o1.getMyTime().compareTo(o2.getMyTime()));
+        titlesInterface.setList(list);
     }
 }

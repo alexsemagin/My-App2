@@ -15,6 +15,7 @@ import com.example.robot.myapp2.presenter.TitlesPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         int pos = getItemCount();
         items = fakeItems;
         notifyItemRangeInserted(pos, this.items.size());
+        notifyDataSetChanged();
     }
 
     @Override
@@ -59,6 +61,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         TextView title;
         @BindView(R.id.item_detail)
         TextView detail;
+        @BindView(R.id.item_time)
+        TextView time;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +71,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
         void bind(ModelItem modelItem) {
             title.setText(modelItem.getMyTitle());
+            time.setText(modelItem.getMyTime());
             String temp = modelItem.getMyDetail();
             detail.setVisibility(temp.equals("") ? View.GONE : View.VISIBLE);
             detail.setText(modelItem.getMyDetail());
@@ -99,18 +104,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         protected FilterResults performFiltering(CharSequence charSequence) {
             filteredList.clear();
             final FilterResults results = new FilterResults();
-
             if (charSequence.length() == 0) {
                 filteredList.addAll(originalList);
             } else {
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 final String filterPattern = charSequence.toString().toLowerCase().trim();
-                for (int i=0; i< originalList.size();i++){
-                    if (originalList.get(i).getMyTitle().toLowerCase().contains(filterPattern)) {
+                for (int i = 0; i < originalList.size(); i++) {
+                    if (originalList.get(i).getMyTitle().toLowerCase().contains(filterPattern) || originalList.get(i).getMyDetail().toLowerCase().contains(filterPattern)) {
                         filteredList.add(originalList.get(i));
                     }
                 }
             }
-
             results.values = filteredList;
             results.count = filteredList.size();
             return results;
@@ -119,10 +127,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            //items.clear();
-            //items.addAll((List<ModelItem>)filterResults.values);
-            //Log.d("tag", (List<ModelItem>)filterResults.values+"");
-            titlesPresenter.updateList((List<ModelItem>)filterResults.values);
+            titlesPresenter.updateList((List<ModelItem>) filterResults.values);
         }
     }
 }
