@@ -1,6 +1,5 @@
 package com.example.robot.myapp2.ui.test_task;
 
-import android.content.ClipData;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,16 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.TitlesInterface;
@@ -37,6 +31,10 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
     private TitlesPresenter mtitlesPresenter;
+    private Boolean checkName = false;
+    private Boolean checkTime = false;
+    MenuItem sortByName;
+    MenuItem sortByTime;
     ProgressBar progressBar;
 
     Toolbar toolbar;
@@ -46,7 +44,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         rAdapter = new RecyclerAdapter(getActivity(), this);
-        mtitlesPresenter = new TitlesPresenter(rAdapter);
+        mtitlesPresenter = new TitlesPresenter();
     }
 
     @Override
@@ -73,21 +71,37 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         SearchView sv = (SearchView) searchMenuItem.getActionView();
         sv.setOnQueryTextListener(this);
 
-        MenuItem sortByName = toolbar.getMenu().findItem(R.id.sort_by_name);
+        sortByName = toolbar.getMenu().findItem(R.id.sort_by_name);
+        sortByTime = toolbar.getMenu().findItem(R.id.sort_by_time);
+
         sortByName.setOnMenuItemClickListener(item -> {
             mtitlesPresenter.sortByName();
+            checkName = true;
+            sortByName.setChecked(checkName);
+            checkTime = false;
+            sortByTime.setChecked(checkTime);
             return false;
         });
 
-        MenuItem sortTimeMenuItem = toolbar.getMenu().findItem(R.id.sort_by_time);
-        sortTimeMenuItem.setOnMenuItemClickListener(item -> {
+        sortByTime.setOnMenuItemClickListener(item -> {
             mtitlesPresenter.sortByTime();
+            checkTime = true;
+            sortByTime.setChecked(checkTime);
+            checkName = false;
+            sortByName.setChecked(checkName);
             return false;
         });
 
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
         mtitlesPresenter.setView(this);
         mtitlesPresenter.getData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sortByName.setChecked(checkName);
+        sortByTime.setChecked(checkTime);
     }
 
     @Override
@@ -107,7 +121,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     @Override
     public void progressBarDoVisible(int visibility) {
-        progressBar.setVisibility(visibility);
+        getActivity().runOnUiThread(() -> progressBar.setVisibility(visibility));
     }
 
     @Override
@@ -118,9 +132,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     @Override
     public void setList(List list) {
-        getActivity().runOnUiThread(() -> {
-            rAdapter.setList(list);
-        });
+        getActivity().runOnUiThread(() -> rAdapter.setList(list));
     }
 
     @Override
