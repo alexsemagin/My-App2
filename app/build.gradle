@@ -38,5 +38,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support:support-v4:25.0.1'
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.4'
+    compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
+        transitive = true
+    }
     testCompile 'junit:junit:4.12'
 }

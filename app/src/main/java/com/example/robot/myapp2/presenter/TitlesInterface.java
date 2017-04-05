@@ -9,4 +9,6 @@ public interface TitlesInterface {
     void openNewFragment(String title, String detail);
 
     void progressBarDoVisible(int visibility);
+
+    String getModelSize();
 }

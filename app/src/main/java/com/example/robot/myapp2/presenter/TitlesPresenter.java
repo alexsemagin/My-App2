@@ -80,4 +80,8 @@ public class TitlesPresenter {
         Collections.sort(list, (o1, o2) -> o1.getMyTime().compareTo(o2.getMyTime()));
         titlesInterface.setList(newList);
     }
+
+    public String getModelSize() {
+        return list.size()+"";
+    }
 }

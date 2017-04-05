@@ -67,6 +67,8 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.inflateMenu(R.menu.menu_activity_main);
 
+
+
         MenuItem searchMenuItem = toolbar.getMenu().findItem(R.id.action_search);
         SearchView sv = (SearchView) searchMenuItem.getActionView();
         sv.setOnQueryTextListener(this);
@@ -122,6 +124,11 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @Override
     public void progressBarDoVisible(int visibility) {
         getActivity().runOnUiThread(() -> progressBar.setVisibility(visibility));
+    }
+
+    @Override
+    public String getModelSize() {
+        return mtitlesPresenter.getModelSize();
     }
 
     @Override
