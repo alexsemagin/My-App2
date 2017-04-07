@@ -17,7 +17,7 @@
             android:id="@+id/sort_by_name"
             android:showAsAction="ifRoom"
             android:title="@string/sort_by_name"
-            tools:ignore="AppCompatResource"/>
+            tools:ignore="AppCompatResource" />
 
         <item
             android:id="@+id/sort_by_time"

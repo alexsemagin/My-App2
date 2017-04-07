@@ -45,7 +45,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
         mdetailsPresenter.setView(this);
         mdetailsPresenter.setData();

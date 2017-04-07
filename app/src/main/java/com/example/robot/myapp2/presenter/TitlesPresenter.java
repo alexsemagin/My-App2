@@ -1,7 +1,5 @@
 package com.example.robot.myapp2.presenter;
 
-import android.view.View;
-
 import com.example.robot.myapp2.model.ModelItem;
 
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class TitlesPresenter {
 
@@ -41,22 +38,15 @@ public class TitlesPresenter {
     public void searchItem(String query) {
         this.query = query;
         newList = new ArrayList<>();
-        titlesInterface.progressBarDoVisible(View.VISIBLE);
-        ex.execute(() -> getFilter(query));
+        getFilter(query);
     }
 
     public void updateList(List<ModelItem> list) {
         this.newList = list;
-        titlesInterface.progressBarDoVisible(View.INVISIBLE);
         getData();
     }
 
     private void getFilter(String query) {
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getMyTitle().contains(query) || list.get(i).getMyDetail().contains(query)) {
                 newList.add(list.get(i));
@@ -82,6 +72,7 @@ public class TitlesPresenter {
     }
 
     public String getModelSize() {
-        return list.size()+"";
+        if (newList == null) return list.size() + "";
+        else return newList.size() + "";
     }
 }
