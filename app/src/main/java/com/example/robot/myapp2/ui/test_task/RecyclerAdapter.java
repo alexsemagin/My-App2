@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
     private static List<ModelItem> items = new ArrayList<>();
     private Activity context;
@@ -31,7 +31,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     void setList(List<ModelItem> fakeItems) {
         int pos = getItemCount();
         items = fakeItems;
-        notifyItemRangeInserted(pos, this.items.size());
+        notifyItemRangeInserted(pos, items.size());
         notifyDataSetChanged();
     }
 

@@ -27,12 +27,12 @@
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/faw_file_image_o"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/background"
                 app:layout_collapseMode="parallax" />
 
-            <!-- As our statusBar is transparent below and content is moved behind our toolbar has to include the padding on top so we use this area -->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar2"
                 android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Related"
+                        android:text="@string/related"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="@color/textColor" />
 

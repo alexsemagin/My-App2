@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withHeader(R.layout.drawer_header)
+                .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test1).withIcon(FontAwesome.Icon.faw_home).withBadge("100").withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_gamepad).withIdentifier(2),
@@ -105,11 +106,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment tit = getSupportFragmentManager().findFragmentById(R.id.container2);
-        if (tit != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (tit != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             getSupportFragmentManager().beginTransaction().remove(tit).commit();
-        } else if (result.isDrawerOpen()) {
-            result.closeDrawer();
-        } else super.onBackPressed();
+        else if (result.isDrawerOpen()) result.closeDrawer();
+        else super.onBackPressed();
     }
 
     public Drawer getDrawer() {

@@ -15,5 +15,6 @@
     <string name="friends">Friends</string>
     <string name="info">Info</string>
     <string name="drawer_item_collapsing_toolbar">CollapsingToolbar</string>
+    <string name="related">Related</string>
 </resources>
 

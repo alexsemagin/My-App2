@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
@@ -24,14 +26,14 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     Toolbar toolbar;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
-    private DetailsPresenter mdetailsPresenter;
+    private DetailsPresenter mDetailsPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String title = getArguments() == null ? TITLE : getArguments().getString(TITLE);
         String detail = getArguments() == null ? DETAIL : getArguments().getString(DETAIL);
-        mdetailsPresenter = new DetailsPresenter(title, detail);
+        mDetailsPresenter = new DetailsPresenter(title, detail);
         setRetainInstance(true);
     }
 
@@ -47,19 +49,21 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
-        mdetailsPresenter.setView(this);
-        mdetailsPresenter.setData();
+        mDetailsPresenter.setView(this);
+        mDetailsPresenter.setData();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mdetailsPresenter.setView(null);
+        mDetailsPresenter.setView(null);
     }
 
     @Override
     public void setTitleAndDetail(String title, String detail) {
         toolbar.setTitle(title);
         tvDetail.setText(detail);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.combination);
+        tvDetail.startAnimation(animation);
     }
 }

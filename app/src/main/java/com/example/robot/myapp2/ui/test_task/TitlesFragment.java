@@ -33,7 +33,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     private RecyclerAdapter rAdapter;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
-    private TitlesPresenter mtitlesPresenter;
+    private TitlesPresenter mTitlesPresenter;
     private Boolean checkName = false;
     private Boolean checkTime = false;
     MenuItem sortByName;
@@ -47,7 +47,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         rAdapter = new RecyclerAdapter(getActivity(), this);
-        mtitlesPresenter = new TitlesPresenter();
+        mTitlesPresenter = new TitlesPresenter();
     }
 
     @Override
@@ -78,26 +78,26 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         sortByTime = toolbar.getMenu().findItem(R.id.sort_by_time);
 
         sortByName.setOnMenuItemClickListener(item -> {
-            mtitlesPresenter.sortByName();
+            mTitlesPresenter.sortByName();
             checkName = true;
-            sortByName.setChecked(checkName);
+            sortByName.setChecked(true);
             checkTime = false;
-            sortByTime.setChecked(checkTime);
+            sortByTime.setChecked(false);
             return false;
         });
 
         sortByTime.setOnMenuItemClickListener(item -> {
-            mtitlesPresenter.sortByTime();
+            mTitlesPresenter.sortByTime();
             checkTime = true;
-            sortByTime.setChecked(checkTime);
+            sortByTime.setChecked(true);
             checkName = false;
-            sortByName.setChecked(checkName);
+            sortByName.setChecked(false);
             return false;
         });
 
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
-        mtitlesPresenter.setView(this);
-        mtitlesPresenter.getData();
+        mTitlesPresenter.setView(this);
+        mTitlesPresenter.getData();
 
     }
 
@@ -110,7 +110,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     @Override
     public void onItemSelected(String title, String detail) {
-        mtitlesPresenter.onItemSelected(title, detail);
+        mTitlesPresenter.onItemSelected(title, detail);
     }
 
     public void openNewFragment(String title, String detail) {
@@ -126,24 +126,24 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mtitlesPresenter.setView(null);
+        mTitlesPresenter.setView(null);
     }
 
     @Override
     public void setList(List list) {
         rAdapter.setList(list);
-        drawer.updateBadge(1, new StringHolder(mtitlesPresenter.getModelSize()));
+        drawer.updateBadge(1, new StringHolder(mTitlesPresenter.getModelSize()));
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mtitlesPresenter.searchItem(query);
+        mTitlesPresenter.searchItem(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        mtitlesPresenter.searchItem(newText);
+        mTitlesPresenter.searchItem(newText);
         return false;
     }
 }

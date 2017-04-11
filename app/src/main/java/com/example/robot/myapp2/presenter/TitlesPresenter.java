@@ -3,22 +3,16 @@ package com.example.robot.myapp2.presenter;
 import com.example.robot.myapp2.model.ModelItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import rx.Observable;
 
 public class TitlesPresenter {
 
     private TitlesInterface titlesInterface;
     private List<ModelItem> list;
     private List<ModelItem> newList;
-    private String query;
-    private ExecutorService ex;
-
-    public TitlesPresenter() {
-        ex = Executors.newSingleThreadExecutor();
-    }
+    String query;
 
     public void setView(TitlesInterface titlesInterface) {
         this.titlesInterface = titlesInterface;
@@ -41,38 +35,38 @@ public class TitlesPresenter {
         getFilter(query);
     }
 
-    public void updateList(List<ModelItem> list) {
-        this.newList = list;
+    private void updateList(ModelItem list) {
+        newList.add(list);
         getData();
     }
 
     private void getFilter(String query) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getMyTitle().contains(query) || list.get(i).getMyDetail().contains(query)) {
-                newList.add(list.get(i));
-            }
-        }
-        updateList(newList);
+        Observable.from(list)
+                .filter(s -> s.getMyTitle().contains(query) || s.getMyDetail().contains(query))
+                .subscribe(this::updateList);
     }
 
     public void sortByName() {
         if (newList == null)
             newList = list;
-        Collections.sort(newList, (o1, o2) -> o1.getMyTitle().compareTo(o2.getMyTitle()));
-        Collections.sort(list, (o1, o2) -> o1.getMyTitle().compareTo(o2.getMyTitle()));
-        titlesInterface.setList(newList);
+        Observable.from(list)
+                .toSortedList((item, item2) -> item.getMyTitle().compareTo(item2.getMyTitle()))
+                .subscribe(s -> titlesInterface.setList(s));
+        //сохранить отсортированный список в list
     }
 
     public void sortByTime() {
         if (newList == null)
             newList = list;
-        Collections.sort(newList, (o1, o2) -> o1.getMyTime().compareTo(o2.getMyTime()));
-        Collections.sort(list, (o1, o2) -> o1.getMyTime().compareTo(o2.getMyTime()));
-        titlesInterface.setList(newList);
+        Observable.from(list)
+                .toSortedList((item, item2) -> item.getMyTime().compareTo(item2.getMyTime()))
+                .subscribe(s -> titlesInterface.setList(s));
+        //сохранить отсортированный список в list
     }
 
     public String getModelSize() {
-        if (newList == null) return list.size() + "";
+        if (newList == null)
+            return list.size() + "";
         else return newList.size() + "";
     }
 }
