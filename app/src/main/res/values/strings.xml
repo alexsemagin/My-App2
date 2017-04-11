@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_item_test1">Домой</string>
     <string name="drawer_item_test2">Collapsing Toolbar</string>
-    <string name="drawer_item_test3">Тестовое задание №3</string>
+    <string name="drawer_item_test3">Google Maps</string>
     <string name="drawer_item_news">Новости</string>
     <string name="drawer_item_actions">Акции</string>
     <string name="drawer_item_settings">Настройки</string>
@@ -16,5 +16,8 @@
     <string name="info">Info</string>
     <string name="drawer_item_collapsing_toolbar">CollapsingToolbar</string>
     <string name="related">Related</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 

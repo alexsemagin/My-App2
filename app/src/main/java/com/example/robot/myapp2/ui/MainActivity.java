@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.ui.test_task.MapFragment;
 import com.example.robot.myapp2.ui.test_task.SecondTaskFragment;
 import com.example.robot.myapp2.ui.test_task.TitlesFragment;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test1).withIcon(FontAwesome.Icon.faw_home).withBadge("100").withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_gamepad).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_test3).withIcon(FontAwesome.Icon.faw_eye).withBadge("6").withIdentifier(3),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_test3).withIcon(FontAwesome.Icon.faw_eye).withIdentifier(3),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_news).withIcon(FontAwesome.Icon.faw_newspaper_o).withIdentifier(4),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_actions).withIcon(FontAwesome.Icon.faw_cube).withIdentifier(5),
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     this.position = position;
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(SecondTaskFragment.class.getName());
+                    Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
                     switch (position) {
                         case 1:
                             if (secondTaskFragment != null)
@@ -67,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
                             } else ft.replace(R.id.main_container, secondTaskFragment).commit();
                             break;
                         case 3:
+                            ft = getSupportFragmentManager().beginTransaction();
+                            if (mapFragment == null) {
+                                mapFragment = new MapFragment();
+                                ft.replace(R.id.main_container, mapFragment, MapFragment.class.getName()).commit();
+                            } else ft.replace(R.id.main_container, mapFragment).commit();
                             break;
                         case 4:
                             break;

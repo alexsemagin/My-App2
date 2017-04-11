@@ -8,7 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/background_material_white</item>
         <item name="android:colorForeground">@color/foreground_material_dark</item>
-        <item name="android:actionMenuTextColor">@color/textColor</item>
+        <item name="android:actionMenuTextColor">@color/foreground_material_dark</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
     </style>
 
     <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
@@ -16,6 +17,16 @@
         <item name="searchIcon">@drawable/ic_toolbar_search</item>
         <item name="closeIcon">@drawable/ic_toolbar_clear</item>
         <item name="android:imeActionId">6</item>
+    </style>
+
+    <style name="MyTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/background_material_white</item>
+        <item name="android:colorForeground">@color/foreground_material_dark</item>
+        <item name="android:actionMenuTextColor">@color/foreground_material_dark</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
     </style>
 
 </resources>
