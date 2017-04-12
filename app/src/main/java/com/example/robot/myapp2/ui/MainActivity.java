@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test1).withIcon(FontAwesome.Icon.faw_home).withBadge("100").withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_gamepad).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_test3).withIcon(FontAwesome.Icon.faw_eye).withIdentifier(3),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_list_ul).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_test3).withIcon(FontAwesome.Icon.faw_map).withIdentifier(3),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_news).withIcon(FontAwesome.Icon.faw_newspaper_o).withIdentifier(4),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_actions).withIcon(FontAwesome.Icon.faw_cube).withIdentifier(5),
@@ -112,10 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment tit = getSupportFragmentManager().findFragmentById(R.id.container2);
-        if (tit != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            getSupportFragmentManager().beginTransaction().remove(tit).commit();
+        Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
+        Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
         else if (result.isDrawerOpen()) result.closeDrawer();
+        else if (mapFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
         else super.onBackPressed();
     }
 

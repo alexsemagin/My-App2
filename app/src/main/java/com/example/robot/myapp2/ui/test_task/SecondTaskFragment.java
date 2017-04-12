@@ -46,7 +46,6 @@ public class SecondTaskFragment extends Fragment {
         fab.setImageDrawable(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
         MainActivity ma = (MainActivity) this.getActivity();
         drawer = ma.getDrawer();
-        toolbar.setNavigationIcon(R.drawable.ic_hamburger);
-        drawer.setToolbar(ma, toolbar);
+        drawer.setToolbar(ma, toolbar, true);
     }
 }
