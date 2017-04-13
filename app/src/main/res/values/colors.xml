@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -8,6 +9,7 @@
     <color name="textColor">#000000</color>
     <color name="secondaryTextColor">#8a000000</color>
     <color name="background_material_white">#ffffff</color>
-    <color name="foreground_material_dark">#ffffff</color>
-    <color name="primary_text_default_material_dark">#ffffff</color>
+    <color name="foreground_material_dark" tools:ignore="PrivateResource">#ffffff</color>
+    <color name="primary_text_default_material_dark" tools:ignore="PrivateResource">#ffffff</color>
+
 </resources>

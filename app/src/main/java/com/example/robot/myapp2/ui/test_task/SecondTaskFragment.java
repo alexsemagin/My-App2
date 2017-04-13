@@ -24,7 +24,6 @@ public class SecondTaskFragment extends Fragment {
 
     @BindView(R.id.toolbar2)
     Toolbar toolbar;
-    Drawer drawer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,12 +39,15 @@ public class SecondTaskFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(getString(R.string.drawer_item_collapsing_toolbar));
+
         final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
         fab.setImageDrawable(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
+
         MainActivity ma = (MainActivity) this.getActivity();
-        drawer = ma.getDrawer();
+        Drawer drawer = ma.getDrawer();
         drawer.setToolbar(ma, toolbar, true);
     }
 }

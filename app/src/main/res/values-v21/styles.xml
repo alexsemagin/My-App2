@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/background_material_white</item>
-        <item name="android:colorForeground">@color/foreground_material_dark</item>
+        <item name="android:colorForeground" tools:ignore="PrivateResource">
+            @color/foreground_material_dark
+        </item>
         <item name="android:navigationBarColor">?attr/actionModeSplitBackground</item>
         <item name="actionMenuTextColor">@color/textColor</item>
         <item name="android:textColorPrimary">@color/textColor</item>

@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
@@ -12,10 +13,13 @@ import com.example.robot.myapp2.ui.test_task.MapFragment;
 import com.example.robot.myapp2.ui.test_task.SecondTaskFragment;
 import com.example.robot.myapp2.ui.test_task.TitlesFragment;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
 import butterknife.BindView;
@@ -36,8 +40,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Alex Semagin").withEmail("semaal@rarus.ru").withIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null))
+                )
+                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
+                .build();
+
         result = new DrawerBuilder()
                 .withActivity(this)
+                .withAccountHeader(headerResult)
                 .withHeader(R.layout.drawer_header)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
@@ -60,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             if (secondTaskFragment != null)
                                 ft.remove(secondTaskFragment).commit();
+                            if (mapFragment != null)
+                                ft.remove(mapFragment).commit();
                             break;
                         case 2:
                             ft = getSupportFragmentManager().beginTransaction();
@@ -95,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             titlesFragment = new TitlesFragment();
             ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
         } else ft.replace(R.id.container, titlesFragment).commit();
-
     }
 
     @Override

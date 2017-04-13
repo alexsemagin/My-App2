@@ -24,6 +24,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     TextView tvDetail;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
     private DetailsPresenter mDetailsPresenter;
@@ -31,24 +32,25 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         String title = getArguments() == null ? TITLE : getArguments().getString(TITLE);
         String detail = getArguments() == null ? DETAIL : getArguments().getString(DETAIL);
         mDetailsPresenter = new DetailsPresenter(title, detail);
-        setRetainInstance(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.details, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(R.layout.details, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(DetailsFragment.this).commit());
+
         mDetailsPresenter.setView(this);
         mDetailsPresenter.setData();
     }
@@ -66,4 +68,5 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.combination);
         tvDetail.startAnimation(animation);
     }
+
 }

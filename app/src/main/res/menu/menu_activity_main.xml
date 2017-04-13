@@ -10,7 +10,7 @@
         yourapp:actionViewClass="android.support.v7.widget.SearchView"
         yourapp:showAsAction="always|collapseActionView" />
 
-    <group android:checkableBehavior="all">
+    <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/sort_by_name"
@@ -22,9 +22,7 @@
             android:id="@+id/sort_by_time"
             android:showAsAction="ifRoom"
             android:title="@string/sort_by_time"
-            tools:ignore="AppCompatResource">
-
-        </item>
+            tools:ignore="AppCompatResource" />
 
     </group>
 

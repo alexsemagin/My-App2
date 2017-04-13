@@ -1,6 +1,5 @@
 package com.example.robot.myapp2.ui.test_task;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,9 @@ import butterknife.OnClick;
 class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
     private static List<ModelItem> items = new ArrayList<>();
-    private Activity context;
     private OnItemSelected itemSelected;
 
-    RecyclerAdapter(Activity context, OnItemSelected itemSelected) {
-        this.context = context;
+    RecyclerAdapter(OnItemSelected itemSelected) {
         this.itemSelected = itemSelected;
     }
 

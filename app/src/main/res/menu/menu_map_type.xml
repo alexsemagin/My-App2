@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/map_type_hybrid"
+            android:showAsAction="ifRoom"
+            android:title="@string/map_type_hybrid"
+            tools:ignore="AppCompatResource" />
+
+        <item
+            android:id="@+id/map_type_normal"
+            android:showAsAction="ifRoom"
+            android:title="@string/map_type_normal"
+            tools:ignore="AppCompatResource" />
+
+        <item
+            android:id="@+id/map_type_satellite"
+            android:showAsAction="ifRoom"
+            android:title="@string/map_type_satellite"
+            tools:ignore="AppCompatResource" />
+
+        <item
+            android:id="@+id/map_type_terrain"
+            android:showAsAction="ifRoom"
+            android:title="@string/map_type_terrain"
+            tools:ignore="AppCompatResource" />
+
+    </group>
+
+</menu>

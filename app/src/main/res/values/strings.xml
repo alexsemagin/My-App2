@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">My App2</string>
     <string name="map_fragment">Google Maps</string>
     <string name="sort_by_name">Сортировка по имени</string>
@@ -15,10 +16,12 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
     <string name="friends">Friends</string>
     <string name="info">Info</string>
-    <string name="drawer_item_collapsing_toolbar">CollapsingToolbar</string>
+    <string name="drawer_item_collapsing_toolbar">Collapsing Toolbar</string>
     <string name="related">Related</string>
+    <string name="map_type_hybrid">Hybrid</string>
+    <string name="map_type_normal">Normal</string>
+    <string name="map_type_satellite">Satellite</string>
+    <string name="map_type_terrain">Terrain</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 

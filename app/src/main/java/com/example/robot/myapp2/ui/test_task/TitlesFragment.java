@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.TitlesInterface;
@@ -30,43 +29,41 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
+
     private RecyclerAdapter rAdapter;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
     private TitlesPresenter mTitlesPresenter;
-    private Boolean checkName = false;
-    private Boolean checkTime = false;
-    MenuItem sortByName;
-    MenuItem sortByTime;
-    ProgressBar progressBar;
-    Drawer drawer;
-    Toolbar toolbar;
+    private MenuItem sortByName;
+    private MenuItem sortByTime;
+    private Drawer drawer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        rAdapter = new RecyclerAdapter(getActivity(), this);
+        rAdapter = new RecyclerAdapter(this);
         mTitlesPresenter = new TitlesPresenter();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler_layout, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(R.layout.recycler_layout, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = ButterKnife.findById(getActivity(), R.id.toolbar);
+        ButterKnife.bind(this, view);
+
+        Toolbar toolbar = ButterKnife.findById(getActivity(), R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.inflateMenu(R.menu.menu_activity_main);
 
         MainActivity ma = (MainActivity) this.getActivity();
         drawer = ma.getDrawer();
         drawer.setToolbar(ma, toolbar);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(rAdapter);
 
@@ -79,33 +76,18 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
         sortByName.setOnMenuItemClickListener(item -> {
             mTitlesPresenter.sortByName();
-            checkName = true;
             sortByName.setChecked(true);
-            checkTime = false;
-            sortByTime.setChecked(false);
             return false;
         });
 
         sortByTime.setOnMenuItemClickListener(item -> {
             mTitlesPresenter.sortByTime();
-            checkTime = true;
             sortByTime.setChecked(true);
-            checkName = false;
-            sortByName.setChecked(false);
             return false;
         });
 
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
         mTitlesPresenter.setView(this);
         mTitlesPresenter.getData();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sortByName.setChecked(checkName);
-        sortByTime.setChecked(checkTime);
     }
 
     @Override
@@ -115,12 +97,12 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
 
     public void openNewFragment(String title, String detail) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        DetailsFragment det = new DetailsFragment();
+        DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(TITLE, title);
         bundle.putString(DETAIL, detail);
-        det.setArguments(bundle);
-        ft.replace(R.id.container2, det, DetailsFragment.class.getName()).commit();
+        detailsFragment.setArguments(bundle);
+        ft.replace(R.id.container2, detailsFragment, DetailsFragment.class.getName()).commit();
     }
 
     @Override
@@ -129,6 +111,7 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         mTitlesPresenter.setView(null);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setList(List list) {
         rAdapter.setList(list);
@@ -146,4 +129,5 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
         mTitlesPresenter.searchItem(newText);
         return false;
     }
+
 }

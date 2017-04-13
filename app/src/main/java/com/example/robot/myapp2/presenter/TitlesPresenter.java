@@ -12,7 +12,6 @@ public class TitlesPresenter {
     private TitlesInterface titlesInterface;
     private List<ModelItem> list;
     private List<ModelItem> newList;
-    String query;
 
     public void setView(TitlesInterface titlesInterface) {
         this.titlesInterface = titlesInterface;
@@ -30,7 +29,6 @@ public class TitlesPresenter {
     }
 
     public void searchItem(String query) {
-        this.query = query;
         newList = new ArrayList<>();
         getFilter(query);
     }
@@ -46,12 +44,17 @@ public class TitlesPresenter {
                 .subscribe(this::updateList);
     }
 
+    private void setSortListToList(List list) {
+        this.list = list;
+        titlesInterface.setList(list);
+    }
+
     public void sortByName() {
         if (newList == null)
             newList = list;
         Observable.from(list)
                 .toSortedList((item, item2) -> item.getMyTitle().compareTo(item2.getMyTitle()))
-                .subscribe(s -> titlesInterface.setList(s));
+                .subscribe(this::setSortListToList);
         //сохранить отсортированный список в list
     }
 
@@ -60,7 +63,7 @@ public class TitlesPresenter {
             newList = list;
         Observable.from(list)
                 .toSortedList((item, item2) -> item.getMyTime().compareTo(item2.getMyTime()))
-                .subscribe(s -> titlesInterface.setList(s));
+                .subscribe(this::setSortListToList);
         //сохранить отсортированный список в list
     }
 
