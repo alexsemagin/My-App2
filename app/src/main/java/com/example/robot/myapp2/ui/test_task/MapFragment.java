@@ -54,6 +54,8 @@ public class MapFragment extends Fragment implements OnMapLongClickListener, OnM
     private MenuItem mSatelliteMapType;
     private MenuItem mTerrainMapType;
 
+    private static final String KEY_MAP_SAVED_STATE = "mapState";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
@@ -70,8 +72,9 @@ public class MapFragment extends Fragment implements OnMapLongClickListener, OnM
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
-        mapView.onCreate(null);
+        Bundle mapState = (savedInstanceState != null)
+                ? savedInstanceState.getBundle(KEY_MAP_SAVED_STATE) : null;
+        mapView.onCreate(mapState);
         mapView.getMapAsync(this);
         mapView.onResume();
 
@@ -114,6 +117,14 @@ public class MapFragment extends Fragment implements OnMapLongClickListener, OnM
         mMapPresenter.setView(this);
         mMapPresenter.setMyLocation();
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle mapState = new Bundle();
+        mapView.onSaveInstanceState(mapState);
+        outState.putBundle(KEY_MAP_SAVED_STATE, mapState);
     }
 
     private LocationListener locationListener = new LocationListener() {
