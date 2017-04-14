@@ -71,7 +71,7 @@ public class MapFragment extends Fragment implements OnMapLongClickListener, OnM
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mapView.onCreate(savedInstanceState);
+        mapView.onCreate(null);
         mapView.getMapAsync(this);
         mapView.onResume();
 
