@@ -178,7 +178,7 @@ public class MapFragment extends Fragment implements OnMapLongClickListener, OnM
 
     @Override
     public void setMarker(LatLng latLng) {
-        Marker marker = map.addMarker(new MarkerOptions().position(latLng).title("Home").draggable(true));
+        Marker marker = map.addMarker(new MarkerOptions().position(latLng).title("My Home").draggable(true));
         marker.showInfoWindow();
     }
 
