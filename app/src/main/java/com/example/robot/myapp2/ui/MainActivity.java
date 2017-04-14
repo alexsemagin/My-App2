@@ -8,8 +8,10 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.ui.test_task.MapFragment;
+import com.example.robot.myapp2.ui.test_task.PhoneFragment;
 import com.example.robot.myapp2.ui.test_task.SecondTaskFragment;
 import com.example.robot.myapp2.ui.test_task.TitlesFragment;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -24,6 +26,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -70,12 +74,15 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(SecondTaskFragment.class.getName());
                     Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
+                    Fragment phoneFragment = getSupportFragmentManager().findFragmentByTag(PhoneFragment.class.getName());
                     switch (position) {
                         case 1:
                             if (secondTaskFragment != null)
                                 ft.remove(secondTaskFragment).commit();
                             if (mapFragment != null)
                                 ft.remove(mapFragment).commit();
+                            if (phoneFragment != null)
+                                ft.remove(phoneFragment).commit();
                             break;
                         case 2:
                             ft = getSupportFragmentManager().beginTransaction();
@@ -84,14 +91,19 @@ public class MainActivity extends AppCompatActivity {
                                 ft.replace(R.id.main_container, secondTaskFragment, SecondTaskFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, secondTaskFragment).commit();
                             break;
-                        case 3:
+                        case 4:
                             ft = getSupportFragmentManager().beginTransaction();
                             if (mapFragment == null) {
                                 mapFragment = new MapFragment();
                                 ft.replace(R.id.main_container, mapFragment, MapFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, mapFragment).commit();
                             break;
-                        case 4:
+                        case 3:
+                            ft = getSupportFragmentManager().beginTransaction();
+                            if (phoneFragment == null) {
+                                phoneFragment = new PhoneFragment();
+                                ft.replace(R.id.main_container, phoneFragment, PhoneFragment.class.getName()).commit();
+                            } else ft.replace(R.id.main_container, phoneFragment).commit();
                             break;
                         case 5:
                             break;
@@ -129,11 +141,14 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
         Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        Fragment phoneFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
         else if (result.isDrawerOpen()) result.closeDrawer();
         else if (mapFragment != null)
             getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
+        else if (phoneFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(phoneFragment).commit();
         else super.onBackPressed();
     }
 
