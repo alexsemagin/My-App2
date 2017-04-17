@@ -8,7 +8,7 @@
     <string name="drawer_item_test1">Домой</string>
     <string name="drawer_item_test2">Collapsing Toolbar</string>
     <string name="drawer_item_test3">Google Maps</string>
-    <string name="drawer_item_news">Новости</string>
+    <string name="drawer_item_phone">Phone</string>
     <string name="drawer_item_actions">Акции</string>
     <string name="drawer_item_settings">Настройки</string>
     <string name="drawer_item_about">О приложении</string>
@@ -22,6 +22,18 @@
     <string name="map_type_normal">Normal</string>
     <string name="map_type_satellite">Satellite</string>
     <string name="map_type_terrain">Terrain</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="call">Позвонить</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
 
 </resources>
 

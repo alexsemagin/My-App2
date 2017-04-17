@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_list_ul).withIdentifier(2),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test3).withIcon(FontAwesome.Icon.faw_map).withIdentifier(3),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_news).withIcon(FontAwesome.Icon.faw_newspaper_o).withIdentifier(4),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_phone).withIcon(FontAwesome.Icon.faw_newspaper_o).withIdentifier(4),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_actions).withIcon(FontAwesome.Icon.faw_cube).withIdentifier(5),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(6),
@@ -91,21 +91,19 @@ public class MainActivity extends AppCompatActivity {
                                 ft.replace(R.id.main_container, secondTaskFragment, SecondTaskFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, secondTaskFragment).commit();
                             break;
-                        case 4:
+                        case 3:
                             ft = getSupportFragmentManager().beginTransaction();
                             if (mapFragment == null) {
                                 mapFragment = new MapFragment();
                                 ft.replace(R.id.main_container, mapFragment, MapFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, mapFragment).commit();
                             break;
-                        case 3:
+                        case 5:
                             ft = getSupportFragmentManager().beginTransaction();
                             if (phoneFragment == null) {
                                 phoneFragment = new PhoneFragment();
                                 ft.replace(R.id.main_container, phoneFragment, PhoneFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, phoneFragment).commit();
-                            break;
-                        case 5:
                             break;
                         case 6:
                             break;
