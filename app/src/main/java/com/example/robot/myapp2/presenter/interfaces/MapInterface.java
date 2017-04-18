@@ -1,12 +1,12 @@
-package com.example.robot.myapp2.presenter;
+package com.example.robot.myapp2.presenter.interfaces;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public interface MapInterface {
+public interface MapInterface extends BaseInterface {
 
-    void setMap(GoogleMap googleMap);
+    void setGoogleMap(GoogleMap googleMap);
 
     void setLocation();
 

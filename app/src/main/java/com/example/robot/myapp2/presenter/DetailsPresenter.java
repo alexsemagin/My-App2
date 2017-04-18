@@ -1,6 +1,8 @@
 package com.example.robot.myapp2.presenter;
 
-public class DetailsPresenter {
+import com.example.robot.myapp2.presenter.interfaces.DetailsInterface;
+
+public class DetailsPresenter extends BasePresenter {
 
     private DetailsInterface detailsInterface;
 
@@ -19,5 +21,5 @@ public class DetailsPresenter {
     public void setData() {
         detailsInterface.setTitleAndDetail(title, detail);
     }
-}
 
+}

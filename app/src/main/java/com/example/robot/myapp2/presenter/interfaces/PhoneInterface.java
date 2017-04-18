@@ -1,6 +1,6 @@
-package com.example.robot.myapp2.presenter;
+package com.example.robot.myapp2.presenter.interfaces;
 
-public interface PhoneInterface {
+public interface PhoneInterface extends BaseInterface {
 
     void callToNumber(String number);
 

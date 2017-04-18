@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.ui.test_task.CollapsingToolbarFragment;
 import com.example.robot.myapp2.ui.test_task.MapFragment;
 import com.example.robot.myapp2.ui.test_task.PhoneFragment;
-import com.example.robot.myapp2.ui.test_task.SecondTaskFragment;
 import com.example.robot.myapp2.ui.test_task.TitlesFragment;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -28,13 +27,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.container)
     FrameLayout container;
     @BindView(R.id.container2)
     FrameLayout container2;
-    private Drawer result = null;
+
+    private Drawer mDrawer = null;
     private int position = 0;
 
     @Override
@@ -44,6 +44,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        initDrawer();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
+        if (titlesFragment == null) {
+            titlesFragment = new TitlesFragment();
+            ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
+        } else ft.replace(R.id.container, titlesFragment).commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", position);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mDrawer.setSelection(savedInstanceState.getInt("position"));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
+        Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        Fragment phoneFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
+        else if (mDrawer.isDrawerOpen()) mDrawer.closeDrawer();
+        else if (mapFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
+        else if (phoneFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(phoneFragment).commit();
+        else super.onBackPressed();
+    }
+
+    public void initDrawer() {
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
@@ -53,11 +91,10 @@ public class MainActivity extends AppCompatActivity {
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
-        result = new DrawerBuilder()
+        mDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .withHeader(R.layout.drawer_header)
-                .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test1).withIcon(FontAwesome.Icon.faw_home).withBadge("100").withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test2).withIcon(FontAwesome.Icon.faw_list_ul).withIdentifier(2),
@@ -72,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 ).withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     this.position = position;
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(SecondTaskFragment.class.getName());
+                    Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(CollapsingToolbarFragment.class.getName());
                     Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
                     Fragment phoneFragment = getSupportFragmentManager().findFragmentByTag(PhoneFragment.class.getName());
                     switch (position) {
@@ -87,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
                         case 2:
                             ft = getSupportFragmentManager().beginTransaction();
                             if (secondTaskFragment == null) {
-                                secondTaskFragment = new SecondTaskFragment();
-                                ft.replace(R.id.main_container, secondTaskFragment, SecondTaskFragment.class.getName()).commit();
+                                secondTaskFragment = new CollapsingToolbarFragment();
+                                ft.replace(R.id.main_container, secondTaskFragment, CollapsingToolbarFragment.class.getName()).commit();
                             } else ft.replace(R.id.main_container, secondTaskFragment).commit();
                             break;
                         case 3:
@@ -115,42 +152,10 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 })
                 .build();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
-        if (titlesFragment == null) {
-            titlesFragment = new TitlesFragment();
-            ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
-        } else ft.replace(R.id.container, titlesFragment).commit();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("position", position);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        result.setSelection(savedInstanceState.getInt("position"));
-    }
-
-    @Override
-    public void onBackPressed() {
-        Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
-        Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-        Fragment phoneFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-        if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
-        else if (result.isDrawerOpen()) result.closeDrawer();
-        else if (mapFragment != null)
-            getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
-        else if (phoneFragment != null)
-            getSupportFragmentManager().beginTransaction().remove(phoneFragment).commit();
-        else super.onBackPressed();
     }
 
     public Drawer getDrawer() {
-        return result;
+        return mDrawer;
     }
+
 }

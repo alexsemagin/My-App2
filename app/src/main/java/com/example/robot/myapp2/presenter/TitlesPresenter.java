@@ -1,15 +1,17 @@
 package com.example.robot.myapp2.presenter;
 
 import com.example.robot.myapp2.model.ModelItem;
+import com.example.robot.myapp2.presenter.interfaces.TitlesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 
-public class TitlesPresenter {
+public class TitlesPresenter extends BasePresenter {
 
     private TitlesInterface titlesInterface;
+
     private List<ModelItem> list;
     private List<ModelItem> newList;
 
@@ -72,4 +74,5 @@ public class TitlesPresenter {
             return list.size() + "";
         else return newList.size() + "";
     }
+
 }

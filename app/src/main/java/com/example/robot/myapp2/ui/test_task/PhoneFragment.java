@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -22,15 +23,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.robot.myapp2.R;
-import com.example.robot.myapp2.presenter.PhoneInterface;
 import com.example.robot.myapp2.presenter.PhonePresenter;
+import com.example.robot.myapp2.presenter.interfaces.PhoneInterface;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class PhoneFragment extends Fragment implements PhoneInterface {
+public class PhoneFragment extends BaseFragment implements PhoneInterface {
 
     @BindView(R.id.input_phone)
     EditText tvNumber;
@@ -38,14 +38,14 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
     ImageButton call;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    AlertDialog.Builder ad;
+
+    AlertDialog.Builder alertDialog;
 
     private PhonePresenter mPhonePresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         mPhonePresenter = new PhonePresenter();
     }
 
@@ -57,7 +57,6 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
 
         toolbar.setTitle(R.string.drawer_item_phone);
 
@@ -75,58 +74,11 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String formatted;
-                String regex0 = "(.+)(\\-)$";
-                String regex1 = "(\\+\\d)(\\d{3})";
-                String regex2 = "(.+ )(\\d{3})(\\d)$";
-                String regex3 = "(.+\\-)(\\d{2})(\\d)$";
-                String regex4 = "([0-7,9])(\\d{3})(\\d)";
-                String regex5 = "(^[8])(\\d{3})(\\d)";
-                String regex6 = "(\\+)(\\d)( \\()(\\d{3})(\\))";
-                String regex7 = "(\\d)( \\()(\\d{3})(\\))";
+                mPhonePresenter.textChanged(s, tvNumber);
 
-                if (s.toString().matches(regex0)) {
-                    formatted = String.valueOf(s).replaceFirst(regex0, "$1");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex1)) {
-                    formatted = String.valueOf(s).replaceFirst(regex1, "$1 ($2) $3");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex2)) {
-                    formatted = String.valueOf(s).replaceFirst(regex2, "$1$2-$3");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex3) && s.length() < 18) {
-                    formatted = String.valueOf(s).replaceFirst(regex3, "$1$2-$3");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex4)) {
-                    formatted = String.valueOf(s).replaceFirst(regex4, "+$1 ($2) $3");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex5)) {
-                    formatted = String.valueOf(s).replaceFirst(regex5, "$1 ($2) ");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex6)) {
-                    formatted = String.valueOf(s).replaceFirst(regex6, "$2$4");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                } else if (s.toString().matches(regex7)) {
-                    formatted = String.valueOf(s).replaceFirst(regex7, "$1$3");
-                    tvNumber.setText(formatted);
-                    tvNumber.setSelection(formatted.length());
-                }
             }
         });
 
-        ad = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AlertDialogCustom));
-        ad.setTitle("Голосовые вызовы не поддерживаются!");
-        ad.setPositiveButton("Добавить в контакты", (dialog, which) -> mPhonePresenter.openContacts());
-        ad.setNegativeButton("Закрыть", (dialog, which) -> {
-        });
-        ad.setCancelable(true);
         MainActivity ma = (MainActivity) this.getActivity();
         Drawer drawer = ma.getDrawer();
         drawer.setToolbar(ma, toolbar, true);
@@ -159,7 +111,13 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
                 startActivity(intent);
             }
         } else {
-            ad.show();
+            alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AlertDialogCustom));
+            alertDialog.setTitle("Голосовые вызовы не поддерживаются!");
+            alertDialog.setPositiveButton("Добавить в контакты", (dialog, which) -> mPhonePresenter.openContacts());
+            alertDialog.setNegativeButton("Закрыть", (dialog, which) -> {
+            });
+            alertDialog.setCancelable(true);
+            alertDialog.show();
         }
     }
 
@@ -174,6 +132,7 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void getLastNumber() {
         String[] projection = new String[]{
@@ -197,13 +156,15 @@ public class PhoneFragment extends Fragment implements PhoneInterface {
                 null
         );
 
-        if (cursor.moveToFirst()) {
-            do {
-                tvNumber.setText(cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)));
-            } while (cursor.moveToNext());
-        }
-        if (!cursor.isClosed()) {
-            cursor.close();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    tvNumber.setText(cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)));
+                } while (cursor.moveToNext());
+            }
+            if (!cursor.isClosed()) {
+                cursor.close();
+            }
         }
     }
 

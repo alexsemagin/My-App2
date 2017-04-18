@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -43,5 +44,5 @@
             android:value="b6142c2d6ba5e8d063289c73a5b661dc1ca3d8db" />
 
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

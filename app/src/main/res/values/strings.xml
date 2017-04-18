@@ -34,6 +34,7 @@
     <string name="call">Позвонить</string>
     <string name="name">Name</string>
     <string name="number">Number</string>
+    <string name="content_description">Content description</string>
 
 </resources>
 

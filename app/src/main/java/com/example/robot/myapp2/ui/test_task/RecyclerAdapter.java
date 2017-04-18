@@ -9,43 +9,31 @@ import android.widget.TextView;
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.model.ModelItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+class RecyclerAdapter extends BaseAdapter {
 
-    private static List<ModelItem> items = new ArrayList<>();
-    private OnItemSelected itemSelected;
+    private OnItemSelected mItemSelected;
 
     RecyclerAdapter(OnItemSelected itemSelected) {
-        this.itemSelected = itemSelected;
-    }
-
-    void setList(List<ModelItem> fakeItems) {
-        int pos = getItemCount();
-        items = fakeItems;
-        notifyItemRangeInserted(pos, items.size());
-        notifyDataSetChanged();
+        mItemSelected = itemSelected;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
-        return new RecyclerViewHolder(view);
+        return new RecyclerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.bind(items.get(position));
+        holder.bind(mItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return super.getItemCount();
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -72,12 +60,12 @@ class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewH
 
         @OnClick(R.id.card_content)
         public void onClick(View view) {
-            itemSelected.onItemSelected(title.getText().toString(), detail.getText().toString());
+            mItemSelected.onItemSelected(title.getText().toString(), detail.getText().toString());
         }
     }
 
     interface OnItemSelected {
         void onItemSelected(String title, String info);
     }
-}
 
+}

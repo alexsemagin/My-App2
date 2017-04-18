@@ -1,10 +1,11 @@
 package com.example.robot.myapp2.presenter;
 
+import com.example.robot.myapp2.presenter.interfaces.MapInterface;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapPresenter {
+public class MapPresenter extends BasePresenter {
 
     private MapInterface mMapInterface;
 
@@ -13,7 +14,7 @@ public class MapPresenter {
     }
 
     public void onMapReady(GoogleMap googleMap) {
-        mMapInterface.setMap(googleMap);
+        mMapInterface.setGoogleMap(googleMap);
     }
 
     public void setMyLocation() {

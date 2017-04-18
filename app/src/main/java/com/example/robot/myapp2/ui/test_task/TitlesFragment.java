@@ -2,7 +2,6 @@ package com.example.robot.myapp2.ui.test_task;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
-import com.example.robot.myapp2.presenter.TitlesInterface;
 import com.example.robot.myapp2.presenter.TitlesPresenter;
+import com.example.robot.myapp2.presenter.interfaces.TitlesInterface;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.holder.StringHolder;
@@ -25,24 +24,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSelected, TitlesInterface, SearchView.OnQueryTextListener {
+public class TitlesFragment extends BaseFragment implements RecyclerAdapter.OnItemSelected, TitlesInterface, SearchView.OnQueryTextListener {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
 
-    private RecyclerAdapter rAdapter;
+    private RecyclerAdapter mRecyclerAdapter;
+    private MenuItem mSortByName;
+    private MenuItem mSortByTime;
+    private Drawer mDrawer;
     private static final String TITLE = "title";
     private static final String DETAIL = "detail";
+
     private TitlesPresenter mTitlesPresenter;
-    private MenuItem sortByName;
-    private MenuItem sortByTime;
-    private Drawer drawer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        rAdapter = new RecyclerAdapter(this);
+        mRecyclerAdapter = new RecyclerAdapter(this);
         mTitlesPresenter = new TitlesPresenter();
     }
 
@@ -54,35 +53,34 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
 
         Toolbar toolbar = ButterKnife.findById(getActivity(), R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.inflateMenu(R.menu.menu_activity_main);
 
         MainActivity ma = (MainActivity) this.getActivity();
-        drawer = ma.getDrawer();
-        drawer.setToolbar(ma, toolbar);
+        mDrawer = ma.getDrawer();
+        mDrawer.setToolbar(ma, toolbar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(rAdapter);
+        recyclerView.setAdapter(mRecyclerAdapter);
 
         MenuItem searchMenuItem = toolbar.getMenu().findItem(R.id.action_search);
         SearchView sv = (SearchView) searchMenuItem.getActionView();
         sv.setOnQueryTextListener(this);
 
-        sortByName = toolbar.getMenu().findItem(R.id.sort_by_name);
-        sortByTime = toolbar.getMenu().findItem(R.id.sort_by_time);
+        mSortByName = toolbar.getMenu().findItem(R.id.sort_by_name);
+        mSortByTime = toolbar.getMenu().findItem(R.id.sort_by_time);
 
-        sortByName.setOnMenuItemClickListener(item -> {
+        mSortByName.setOnMenuItemClickListener(item -> {
             mTitlesPresenter.sortByName();
-            sortByName.setChecked(true);
+            mSortByName.setChecked(true);
             return false;
         });
 
-        sortByTime.setOnMenuItemClickListener(item -> {
+        mSortByTime.setOnMenuItemClickListener(item -> {
             mTitlesPresenter.sortByTime();
-            sortByTime.setChecked(true);
+            mSortByTime.setChecked(true);
             return false;
         });
 
@@ -114,8 +112,8 @@ public class TitlesFragment extends Fragment implements RecyclerAdapter.OnItemSe
     @SuppressWarnings("unchecked")
     @Override
     public void setList(List list) {
-        rAdapter.setList(list);
-        drawer.updateBadge(1, new StringHolder(mTitlesPresenter.getModelSize()));
+        mRecyclerAdapter.setList(list);
+        mDrawer.updateBadge(1, new StringHolder(mTitlesPresenter.getModelSize()));
     }
 
     @Override
