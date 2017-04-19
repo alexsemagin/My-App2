@@ -55,7 +55,7 @@ class RecyclerAdapter extends BaseAdapter {
             time.setText(modelItem.getMyTime());
             String temp = modelItem.getMyDetail();
             detail.setVisibility(temp.equals("") ? View.GONE : View.VISIBLE);
-            detail.setText(modelItem.getMyDetail());
+            detail.setText(temp);
         }
 
         @OnClick(R.id.card_content)
@@ -65,7 +65,9 @@ class RecyclerAdapter extends BaseAdapter {
     }
 
     interface OnItemSelected {
+
         void onItemSelected(String title, String info);
+
     }
 
 }
