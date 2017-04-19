@@ -1,9 +1,13 @@
 package com.example.robot.myapp2.presenter;
 
-public interface BaseInterface<V> {
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 
-    void setView(V view);
+public interface BaseInterface {
 
-    void dropView();
+    void onCreate(Bundle savedInstanceState);
+
+    void onViewCreated(View view, @Nullable Bundle savedInstanceState);
 
 }

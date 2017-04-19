@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.MapInterface;
 import com.example.robot.myapp2.presenter.MapPresenter;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.google.android.gms.maps.CameraUpdate;
@@ -37,7 +38,7 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import static com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
-public class MapFragment extends BaseFragment implements MapPresenter.View, OnMapLongClickListener, OnMapReadyCallback, OnMarkerClickListener {
+public class MapFragment extends BaseFragment implements MapInterface, OnMapLongClickListener, OnMapReadyCallback, OnMarkerClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

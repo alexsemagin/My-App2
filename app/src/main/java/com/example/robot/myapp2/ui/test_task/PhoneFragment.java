@@ -19,19 +19,20 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.PhoneInterface;
 import com.example.robot.myapp2.presenter.PhonePresenter;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
 
 import butterknife.BindView;
 
-public class PhoneFragment extends BaseFragment implements PhonePresenter.View {
+public class PhoneFragment extends BaseFragment implements PhoneInterface {
 
     @BindView(R.id.input_phone)
     EditText tvNumber;
@@ -39,8 +40,6 @@ public class PhoneFragment extends BaseFragment implements PhonePresenter.View {
     ImageButton call;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
 
     AlertDialog.Builder alertDialog;
 
@@ -62,8 +61,11 @@ public class PhoneFragment extends BaseFragment implements PhonePresenter.View {
         super.onViewCreated(view, savedInstanceState);
 
         toolbar.setTitle(R.string.drawer_item_phone);
-
-        call.setOnClickListener(v -> mPhonePresenter.callToNumber(tvNumber.getText().toString()));
+        call.setOnClickListener(v -> {
+            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
+            call.startAnimation(animation);
+            mPhonePresenter.callToNumber(tvNumber.getText().toString());
+        });
 
         tvNumber.addTextChangedListener(new TextWatcher() {
 
@@ -80,12 +82,6 @@ public class PhoneFragment extends BaseFragment implements PhonePresenter.View {
                 mPhonePresenter.textChanged(s, tvNumber);
 
             }
-        });
-
-        linearLayout.setOnClickListener(v -> {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(tvNumber.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
         });
 
         MainActivity ma = (MainActivity) this.getActivity();

@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.example.robot.myapp2.presenter.BaseInterface;
+
 import butterknife.ButterKnife;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements BaseInterface {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

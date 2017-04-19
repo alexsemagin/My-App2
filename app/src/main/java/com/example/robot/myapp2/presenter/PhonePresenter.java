@@ -3,9 +3,9 @@ package com.example.robot.myapp2.presenter;
 import android.text.Editable;
 import android.widget.EditText;
 
-public class PhonePresenter extends BasePresenter<PhonePresenter.View> {
+public class PhonePresenter extends BasePresenter<PhoneInterface> {
 
-    public void setView(View view) {
+    public void setView(PhoneInterface view) {
         super.setView(view);
     }
 
@@ -69,18 +69,6 @@ public class PhonePresenter extends BasePresenter<PhonePresenter.View> {
             tvNumber.setText(formatted);
             tvNumber.setSelection(formatted.length());
         }
-    }
-
-    public interface View {
-
-        void callToNumber(String number);
-
-        void getPermission();
-
-        void getLastNumber();
-
-        void openContacts();
-
     }
 
 }

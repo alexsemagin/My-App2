@@ -1,6 +1,6 @@
 package com.example.robot.myapp2.presenter;
 
-public class DetailsPresenter extends BasePresenter<DetailsPresenter.View> {
+public class DetailsPresenter extends BasePresenter<DetailsInterface> {
 
     private String title;
     private String detail;
@@ -11,7 +11,7 @@ public class DetailsPresenter extends BasePresenter<DetailsPresenter.View> {
     }
 
     @Override
-    public void setView(View view) {
+    public void setView(DetailsInterface view) {
         super.setView(view);
     }
 
@@ -22,12 +22,6 @@ public class DetailsPresenter extends BasePresenter<DetailsPresenter.View> {
 
     public void setData() {
         mBaseInterface.setTitleAndDetail(title, detail);
-    }
-
-    public interface View {
-
-        void setTitleAndDetail(String title, String detail);
-
     }
 
 }

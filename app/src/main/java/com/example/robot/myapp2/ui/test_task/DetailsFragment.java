@@ -11,11 +11,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.DetailsInterface;
 import com.example.robot.myapp2.presenter.DetailsPresenter;
 
 import butterknife.BindView;
 
-public class DetailsFragment extends BaseFragment implements DetailsPresenter.View {
+public class DetailsFragment extends BaseFragment implements DetailsInterface {
 
     @BindView(R.id.textView)
     TextView tvDetail;

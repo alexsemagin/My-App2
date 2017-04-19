@@ -4,9 +4,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapPresenter extends BasePresenter<MapPresenter.View> {
+public class MapPresenter extends BasePresenter<MapInterface> {
 
-    public void setView(View view) {
+    public void setView(MapInterface view) {
         mBaseInterface = view;
     }
 
@@ -24,18 +24,6 @@ public class MapPresenter extends BasePresenter<MapPresenter.View> {
 
     public void onMarkerClick(Marker marker) {
         mBaseInterface.clickMarker(marker);
-    }
-
-    public interface View {
-
-        void setGoogleMap(GoogleMap googleMap);
-
-        void setLocation();
-
-        void setMarker(LatLng latLng);
-
-        void clickMarker(Marker marker);
-
     }
 
 }

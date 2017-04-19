@@ -1,15 +1,13 @@
 package com.example.robot.myapp2.presenter;
 
-class BasePresenter<T> implements BaseInterface<T> {
+class BasePresenter<T extends BaseInterface> {
 
     T mBaseInterface;
 
-    @Override
     public void setView(T view) {
         mBaseInterface = view;
     }
 
-    @Override
     public void dropView() {
         mBaseInterface = null;
     }

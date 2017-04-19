@@ -27,4 +27,5 @@
         <item name="android:textColor">@color/textColor</item>
         <item name="android:background">@color/background_material_white</item>
     </style>
+
 </resources>

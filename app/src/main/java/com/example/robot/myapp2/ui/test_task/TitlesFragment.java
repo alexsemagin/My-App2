@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.TitlesInterface;
 import com.example.robot.myapp2.presenter.TitlesPresenter;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
@@ -23,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TitlesFragment extends BaseFragment implements TitlesPresenter.View, RecyclerAdapter.OnItemSelected, SearchView.OnQueryTextListener {
+public class TitlesFragment extends BaseFragment implements TitlesInterface, RecyclerAdapter.OnItemSelected, SearchView.OnQueryTextListener {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;

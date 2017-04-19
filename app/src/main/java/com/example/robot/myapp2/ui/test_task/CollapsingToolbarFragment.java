@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.presenter.CollapsingToolbarInterface;
 import com.example.robot.myapp2.presenter.CollapsingToolbarPresenter;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -19,7 +20,7 @@ import com.mikepenz.materialdrawer.Drawer;
 
 import butterknife.BindView;
 
-public class CollapsingToolbarFragment extends BaseFragment implements CollapsingToolbarPresenter.View {
+public class CollapsingToolbarFragment extends BaseFragment implements CollapsingToolbarInterface {
 
     @BindView(R.id.toolbar2)
     Toolbar toolbar;
@@ -60,8 +61,4 @@ public class CollapsingToolbarFragment extends BaseFragment implements Collapsin
         mCollapsingToolbarPresenter.dropView();
     }
 
-    @Override
-    public void meth() {
-
-    }
 }

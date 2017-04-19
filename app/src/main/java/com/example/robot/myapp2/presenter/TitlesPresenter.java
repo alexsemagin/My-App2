@@ -7,12 +7,12 @@ import java.util.List;
 
 import rx.Observable;
 
-public class TitlesPresenter extends BasePresenter<TitlesPresenter.View> {
+public class TitlesPresenter extends BasePresenter<TitlesInterface> {
 
     private List<ModelItem> list;
     private List<ModelItem> newList;
 
-    public void setView(View view) {
+    public void setView(TitlesInterface view) {
         mBaseInterface = view;
     }
 
@@ -73,12 +73,5 @@ public class TitlesPresenter extends BasePresenter<TitlesPresenter.View> {
         return newList == null ? list.size() + "" : newList.size() + "";
     }
 
-    public interface View {
-
-        void setList(List list);
-
-        void openNewFragment(String title, String detail);
-
-    }
 
 }
