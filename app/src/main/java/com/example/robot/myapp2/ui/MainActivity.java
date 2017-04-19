@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.crashlytics.android.Crashlytics;
@@ -27,13 +28,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.container)
     FrameLayout container;
     @BindView(R.id.container2)
     FrameLayout container2;
 
+    private FragmentTransaction ft;
     private Drawer mDrawer = null;
     private int position = 0;
 
@@ -46,7 +48,7 @@ public class MainActivity extends BaseActivity {
 
         initDrawer();
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction();
         Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
         if (titlesFragment == null) {
             titlesFragment = new TitlesFragment();
@@ -108,7 +110,7 @@ public class MainActivity extends BaseActivity {
                         new SecondaryDrawerItem().withName(R.string.drawer_item_exit).withIcon(FontAwesome.Icon.faw_times).withIdentifier(8)
                 ).withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     this.position = position;
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft = getSupportFragmentManager().beginTransaction();
                     Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(CollapsingToolbarFragment.class.getName());
                     Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
                     Fragment phoneFragment = getSupportFragmentManager().findFragmentByTag(PhoneFragment.class.getName());

@@ -19,18 +19,19 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.PhonePresenter;
-import com.example.robot.myapp2.presenter.interfaces.PhoneInterface;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
 
 import butterknife.BindView;
 
-public class PhoneFragment extends BaseFragment implements PhoneInterface {
+public class PhoneFragment extends BaseFragment implements PhonePresenter.View {
 
     @BindView(R.id.input_phone)
     EditText tvNumber;
@@ -38,6 +39,8 @@ public class PhoneFragment extends BaseFragment implements PhoneInterface {
     ImageButton call;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.linearLayout)
+    LinearLayout linearLayout;
 
     AlertDialog.Builder alertDialog;
 
@@ -79,6 +82,12 @@ public class PhoneFragment extends BaseFragment implements PhoneInterface {
             }
         });
 
+        linearLayout.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(tvNumber.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        });
+
         MainActivity ma = (MainActivity) this.getActivity();
         Drawer drawer = ma.getDrawer();
         drawer.setToolbar(ma, toolbar, true);
@@ -91,7 +100,7 @@ public class PhoneFragment extends BaseFragment implements PhoneInterface {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mPhonePresenter.setView(null);
+        mPhonePresenter.dropView();
     }
 
     @Override

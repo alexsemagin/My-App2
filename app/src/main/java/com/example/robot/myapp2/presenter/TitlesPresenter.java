@@ -1,33 +1,35 @@
 package com.example.robot.myapp2.presenter;
 
 import com.example.robot.myapp2.model.ModelItem;
-import com.example.robot.myapp2.presenter.interfaces.TitlesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 
-public class TitlesPresenter extends BasePresenter {
-
-    private TitlesInterface titlesInterface;
+public class TitlesPresenter extends BasePresenter<TitlesPresenter.View> {
 
     private List<ModelItem> list;
     private List<ModelItem> newList;
 
-    public void setView(TitlesInterface titlesInterface) {
-        this.titlesInterface = titlesInterface;
+    public void setView(View view) {
+        mBaseInterface = view;
+    }
+
+    @Override
+    public void dropView() {
+        super.dropView();
     }
 
     public void getData() {
         if (newList == null) {
-            list = ModelItem.getFakeItems();
-            if (titlesInterface != null) titlesInterface.setList(list);
-        } else titlesInterface.setList(newList);
+            list = ModelItem.getModel();
+            if (mBaseInterface != null) mBaseInterface.setList(list);
+        } else mBaseInterface.setList(newList);
     }
 
     public void onItemSelected(String title, String detail) {
-        titlesInterface.openNewFragment(title, detail);
+        mBaseInterface.openNewFragment(title, detail);
     }
 
     public void searchItem(String query) {
@@ -48,7 +50,7 @@ public class TitlesPresenter extends BasePresenter {
 
     private void setSortListToList(List list) {
         this.list = list;
-        titlesInterface.setList(list);
+        mBaseInterface.setList(list);
     }
 
     public void sortByName() {
@@ -57,7 +59,6 @@ public class TitlesPresenter extends BasePresenter {
         Observable.from(list)
                 .toSortedList((item, item2) -> item.getMyTitle().compareTo(item2.getMyTitle()))
                 .subscribe(this::setSortListToList);
-        //сохранить отсортированный список в list
     }
 
     public void sortByTime() {
@@ -66,13 +67,18 @@ public class TitlesPresenter extends BasePresenter {
         Observable.from(list)
                 .toSortedList((item, item2) -> item.getMyTime().compareTo(item2.getMyTime()))
                 .subscribe(this::setSortListToList);
-        //сохранить отсортированный список в list
     }
 
     public String getModelSize() {
-        if (newList == null)
-            return list.size() + "";
-        else return newList.size() + "";
+        return newList == null ? list.size() + "" : newList.size() + "";
+    }
+
+    public interface View {
+
+        void setList(List list);
+
+        void openNewFragment(String title, String detail);
+
     }
 
 }

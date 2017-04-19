@@ -1,13 +1,21 @@
 package com.example.robot.myapp2.presenter;
 
-import com.example.robot.myapp2.presenter.interfaces.CollapsingToolbarInterface;
+public class CollapsingToolbarPresenter extends BasePresenter<CollapsingToolbarPresenter.View> {
 
-public class CollapsingToolbarPresenter extends BasePresenter {
+    @Override
+    public void setView(View view) {
+        super.setView(view);
+    }
 
-    private CollapsingToolbarInterface secondTaskInterface;
+    @Override
+    public void dropView() {
+        super.dropView();
+    }
 
-    public void setView(CollapsingToolbarInterface secondTaskInterface) {
-        this.secondTaskInterface = secondTaskInterface;
+    public interface View {
+
+        void meth();
+
     }
 
 }

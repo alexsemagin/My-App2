@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.MapPresenter;
-import com.example.robot.myapp2.presenter.interfaces.MapInterface;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,7 +37,7 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN;
 import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import static com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
-public class MapFragment extends BaseFragment implements OnMapLongClickListener, OnMapReadyCallback, MapInterface, OnMarkerClickListener {
+public class MapFragment extends BaseFragment implements MapPresenter.View, OnMapLongClickListener, OnMapReadyCallback, OnMarkerClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -50,13 +49,14 @@ public class MapFragment extends BaseFragment implements OnMapLongClickListener,
     private MenuItem mNormalMapType;
     private MenuItem mSatelliteMapType;
     private MenuItem mTerrainMapType;
+
     private static final String KEY_MAP_SAVED_STATE = "mapState";
 
     private MapPresenter mMapPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        super.onCreate(savedInstanceState);
         mMapPresenter = new MapPresenter();
     }
 

@@ -1,31 +1,41 @@
 package com.example.robot.myapp2.presenter;
 
-import com.example.robot.myapp2.presenter.interfaces.MapInterface;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapPresenter extends BasePresenter {
+public class MapPresenter extends BasePresenter<MapPresenter.View> {
 
-    private MapInterface mMapInterface;
-
-    public void setView(MapInterface MapInterface) {
-        mMapInterface = MapInterface;
+    public void setView(View view) {
+        mBaseInterface = view;
     }
 
     public void onMapReady(GoogleMap googleMap) {
-        mMapInterface.setGoogleMap(googleMap);
+        mBaseInterface.setGoogleMap(googleMap);
     }
 
     public void setMyLocation() {
-        mMapInterface.setLocation();
+        mBaseInterface.setLocation();
     }
 
     public void onMapLongClick(LatLng latLng) {
-        mMapInterface.setMarker(latLng);
+        mBaseInterface.setMarker(latLng);
     }
 
     public void onMarkerClick(Marker marker) {
-        mMapInterface.clickMarker(marker);
+        mBaseInterface.clickMarker(marker);
     }
+
+    public interface View {
+
+        void setGoogleMap(GoogleMap googleMap);
+
+        void setLocation();
+
+        void setMarker(LatLng latLng);
+
+        void clickMarker(Marker marker);
+
+    }
+
 }

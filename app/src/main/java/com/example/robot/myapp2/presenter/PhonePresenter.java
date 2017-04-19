@@ -3,30 +3,26 @@ package com.example.robot.myapp2.presenter;
 import android.text.Editable;
 import android.widget.EditText;
 
-import com.example.robot.myapp2.presenter.interfaces.PhoneInterface;
+public class PhonePresenter extends BasePresenter<PhonePresenter.View> {
 
-public class PhonePresenter extends BasePresenter {
-
-    private PhoneInterface phoneInterface;
-
-    public void setView(PhoneInterface phoneInterface) {
-        this.phoneInterface = phoneInterface;
+    public void setView(View view) {
+        super.setView(view);
     }
 
     public void callToNumber(String s) {
-        phoneInterface.callToNumber(s.replaceAll("(\\+)(\\D+)", ""));
+        mBaseInterface.callToNumber(s.replaceAll("(\\+)(\\D+)", ""));
     }
 
     public void getPermission() {
-        phoneInterface.getPermission();
+        mBaseInterface.getPermission();
     }
 
     public void openContacts() {
-        phoneInterface.openContacts();
+        mBaseInterface.openContacts();
     }
 
     public void getLastNumber() {
-        phoneInterface.getLastNumber();
+        mBaseInterface.getLastNumber();
     }
 
     public void textChanged(Editable s, EditText tvNumber) {
@@ -73,6 +69,18 @@ public class PhonePresenter extends BasePresenter {
             tvNumber.setText(formatted);
             tvNumber.setSelection(formatted.length());
         }
+    }
+
+    public interface View {
+
+        void callToNumber(String number);
+
+        void getPermission();
+
+        void getLastNumber();
+
+        void openContacts();
+
     }
 
 }

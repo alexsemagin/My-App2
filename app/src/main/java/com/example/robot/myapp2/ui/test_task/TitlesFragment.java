@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.TitlesPresenter;
-import com.example.robot.myapp2.presenter.interfaces.TitlesInterface;
 import com.example.robot.myapp2.ui.MainActivity;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.holder.StringHolder;
@@ -24,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TitlesFragment extends BaseFragment implements RecyclerAdapter.OnItemSelected, TitlesInterface, SearchView.OnQueryTextListener {
+public class TitlesFragment extends BaseFragment implements TitlesPresenter.View, RecyclerAdapter.OnItemSelected, SearchView.OnQueryTextListener {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
@@ -106,7 +105,7 @@ public class TitlesFragment extends BaseFragment implements RecyclerAdapter.OnIt
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mTitlesPresenter.setView(null);
+        mTitlesPresenter.dropView();
     }
 
     @SuppressWarnings("unchecked")

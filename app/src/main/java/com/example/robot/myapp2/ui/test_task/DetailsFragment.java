@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.example.robot.myapp2.R;
 import com.example.robot.myapp2.presenter.DetailsPresenter;
-import com.example.robot.myapp2.presenter.interfaces.DetailsInterface;
 
 import butterknife.BindView;
 
-public class DetailsFragment extends BaseFragment implements DetailsInterface {
+public class DetailsFragment extends BaseFragment implements DetailsPresenter.View {
 
     @BindView(R.id.textView)
     TextView tvDetail;
@@ -55,7 +54,7 @@ public class DetailsFragment extends BaseFragment implements DetailsInterface {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mDetailsPresenter.setView(null);
+        mDetailsPresenter.dropView();
     }
 
     @Override

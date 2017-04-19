@@ -30,7 +30,7 @@ public class ModelItem {
         return String.format("%02d:%02d:%02d", time / 3600, time / 60 % 60, time % 60);
     }
 
-    public static List<ModelItem> getFakeItems() {
+    public static List<ModelItem> getModel() {
         ArrayList<ModelItem> itemList = new ArrayList<>();
         for (int i = 1; i < 101; i++) {
             if (i % 2 == 0)

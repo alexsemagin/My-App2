@@ -1,10 +1,6 @@
 package com.example.robot.myapp2.presenter;
 
-import com.example.robot.myapp2.presenter.interfaces.DetailsInterface;
-
-public class DetailsPresenter extends BasePresenter {
-
-    private DetailsInterface detailsInterface;
+public class DetailsPresenter extends BasePresenter<DetailsPresenter.View> {
 
     private String title;
     private String detail;
@@ -14,12 +10,24 @@ public class DetailsPresenter extends BasePresenter {
         this.detail = detail;
     }
 
-    public void setView(DetailsInterface detailsInterface) {
-        this.detailsInterface = detailsInterface;
+    @Override
+    public void setView(View view) {
+        super.setView(view);
+    }
+
+    @Override
+    public void dropView() {
+        super.dropView();
     }
 
     public void setData() {
-        detailsInterface.setTitleAndDetail(title, detail);
+        mBaseInterface.setTitleAndDetail(title, detail);
+    }
+
+    public interface View {
+
+        void setTitleAndDetail(String title, String detail);
+
     }
 
 }
