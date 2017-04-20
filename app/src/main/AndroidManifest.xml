@@ -34,15 +34,14 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyByxmK3TjUkAwEBTIV_NDhbebTCB81gQeI" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b6142c2d6ba5e8d063289c73a5b661dc1ca3d8db" />
 
+        <activity android:name=".ui.AuthActivity"></activity>
     </application>
 
 </manifest>

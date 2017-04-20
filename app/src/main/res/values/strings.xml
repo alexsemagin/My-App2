@@ -35,6 +35,9 @@
     <string name="name">Name</string>
     <string name="number">Number</string>
     <string name="content_description">Content description</string>
+    <string name="server_client_id">109815749562-84rk48rreqpgh351d8ilmv7fdcvd3d5t.apps.googleusercontent.com</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="sign_out">Выйти</string>
 
 </resources>
 

@@ -1,7 +1,9 @@
 package com.example.robot.myapp2.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
@@ -10,10 +12,17 @@ import android.widget.FrameLayout;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.robot.myapp2.R;
+import com.example.robot.myapp2.ui.test_task.AuthorizationFragment;
 import com.example.robot.myapp2.ui.test_task.CollapsingToolbarFragment;
 import com.example.robot.myapp2.ui.test_task.MapFragment;
 import com.example.robot.myapp2.ui.test_task.PhoneFragment;
 import com.example.robot.myapp2.ui.test_task.TitlesFragment;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -28,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     @BindView(R.id.container)
     FrameLayout container;
@@ -38,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private Drawer mDrawer = null;
     private int position = 0;
+    private static final int RC_SIGN_IN = 9001;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +59,27 @@ public class MainActivity extends AppCompatActivity {
 
         initDrawer();
 
+        //signIn();
+
         ft = getSupportFragmentManager().beginTransaction();
         Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
         if (titlesFragment == null) {
             titlesFragment = new TitlesFragment();
             ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
         } else ft.replace(R.id.container, titlesFragment).commit();
+
+        /*Intent intent = new Intent(this, AuthActivity.class);
+        startActivity(intent);*/
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -65,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mDrawer.setSelection(savedInstanceState.getInt("position"));
+        mDrawer.setSelection(savedInstanceState.getInt("position"), false);
     }
 
     @Override
@@ -73,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
         Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         Fragment phoneFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        Fragment authorizationFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
         else if (mDrawer.isDrawerOpen()) mDrawer.closeDrawer();
@@ -80,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
         else if (phoneFragment != null)
             getSupportFragmentManager().beginTransaction().remove(phoneFragment).commit();
+        else if (authorizationFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(authorizationFragment).commit();
         else super.onBackPressed();
     }
 
@@ -114,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(CollapsingToolbarFragment.class.getName());
                     Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
                     Fragment phoneFragment = getSupportFragmentManager().findFragmentByTag(PhoneFragment.class.getName());
+                    Fragment authorizationFragment = getSupportFragmentManager().findFragmentByTag(AuthorizationFragment.class.getName());
                     switch (position) {
                         case 1:
                             if (secondTaskFragment != null)
@@ -148,7 +177,18 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case 7:
                             break;
-                        case 8:
+                        case 9:
+                            /*ft = getSupportFragmentManager().beginTransaction();
+                            if (authorizationFragment == null) {
+                                authorizationFragment = new AuthorizationFragment();
+                                ft.replace(R.id.main_container, authorizationFragment, AuthorizationFragment.class.getName()).commit();
+                            } else ft.replace(R.id.main_container, authorizationFragment).commit();*/
+                            Intent intent = new Intent(this, AuthActivity.class);
+                            startActivity(intent);
+                            break;
+                        case 10:
+                            signOut();
+                            onStart();
                             break;
                     }
                     return false;
@@ -160,4 +200,40 @@ public class MainActivity extends AppCompatActivity {
         return mDrawer;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+
+            //GoogleSignInResult result = opr.get();
+            //handleSignInResult(result);
+        } else {
+            signIn();
+
+            // If the user has not previously signed in on this device or the sign-in has expired,
+            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+            // single sign-on will occur in this branch.
+
+        }
+    }
+
+    private void signIn() {
+        Intent intent = new Intent(this, AuthActivity.class);
+        startActivity(intent);
+    }
+
+    public void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                status -> {
+                });
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
