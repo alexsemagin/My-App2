@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +43,9 @@
             android:name="io.fabric.ApiKey"
             android:value="b6142c2d6ba5e8d063289c73a5b661dc1ca3d8db" />
 
-        <activity android:name=".ui.AuthActivity"></activity>
+        <activity
+            android:name=".ui.AuthActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

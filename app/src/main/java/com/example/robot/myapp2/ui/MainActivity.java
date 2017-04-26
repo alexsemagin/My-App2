@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.robot.myapp2.R;
-import com.example.robot.myapp2.ui.test_task.AuthorizationFragment;
 import com.example.robot.myapp2.ui.test_task.CollapsingToolbarFragment;
 import com.example.robot.myapp2.ui.test_task.MapFragment;
 import com.example.robot.myapp2.ui.test_task.PhoneFragment;
@@ -47,29 +46,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FragmentTransaction ft;
     private Drawer mDrawer = null;
     private int position = 0;
-    private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    private static final int RESULT_CODE = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
-        initDrawer();
-
-        //signIn();
-
-        ft = getSupportFragmentManager().beginTransaction();
-        Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
-        if (titlesFragment == null) {
-            titlesFragment = new TitlesFragment();
-            ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
-        } else ft.replace(R.id.container, titlesFragment).commit();
-
-        /*Intent intent = new Intent(this, AuthActivity.class);
-        startActivity(intent);*/
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -78,6 +61,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (!opr.isDone()) {
+            signIn();
+        }
+        Fabric.with(this, new Crashlytics());
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        initDrawer();
+
+        ft = getSupportFragmentManager().beginTransaction();
+        Fragment titlesFragment = getSupportFragmentManager().findFragmentByTag(TitlesFragment.class.getName());
+        if (titlesFragment == null) {
+            titlesFragment = new TitlesFragment();
+            ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
+        } else ft.replace(R.id.container, titlesFragment).commit();
+
+
     }
 
 
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Fragment titlesFragment = getSupportFragmentManager().findFragmentById(R.id.container2);
         Fragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         Fragment phoneFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
-        Fragment authorizationFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (titlesFragment != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             getSupportFragmentManager().beginTransaction().remove(titlesFragment).commit();
         else if (mDrawer.isDrawerOpen()) mDrawer.closeDrawer();
@@ -106,24 +106,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
         else if (phoneFragment != null)
             getSupportFragmentManager().beginTransaction().remove(phoneFragment).commit();
-        else if (authorizationFragment != null)
-            getSupportFragmentManager().beginTransaction().remove(authorizationFragment).commit();
-        else super.onBackPressed();
+        else {
+            setResult(RESULT_CODE);
+            super.onBackPressed();
+        }
     }
 
     public void initDrawer() {
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        AccountHeader mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("Alex Semagin").withEmail("semaal@rarus.ru").withIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null))
-                )
+                .addProfiles(new ProfileDrawerItem().withName("Alex Semagin").withEmail("semaal@rarus.ru").withIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null)))
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withAccountHeader(headerResult)
+                .withAccountHeader(mAccountHeader)
                 .withHeader(R.layout.drawer_header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_test1).withIcon(FontAwesome.Icon.faw_home).withBadge("100").withIdentifier(1),
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Fragment secondTaskFragment = getSupportFragmentManager().findFragmentByTag(CollapsingToolbarFragment.class.getName());
                     Fragment mapFragment = getSupportFragmentManager().findFragmentByTag(MapFragment.class.getName());
                     Fragment phoneFragment = getSupportFragmentManager().findFragmentByTag(PhoneFragment.class.getName());
-                    Fragment authorizationFragment = getSupportFragmentManager().findFragmentByTag(AuthorizationFragment.class.getName());
+
                     switch (position) {
                         case 1:
                             if (secondTaskFragment != null)
@@ -178,13 +177,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         case 7:
                             break;
                         case 9:
-                            /*ft = getSupportFragmentManager().beginTransaction();
-                            if (authorizationFragment == null) {
-                                authorizationFragment = new AuthorizationFragment();
-                                ft.replace(R.id.main_container, authorizationFragment, AuthorizationFragment.class.getName()).commit();
-                            } else ft.replace(R.id.main_container, authorizationFragment).commit();*/
-                            Intent intent = new Intent(this, AuthActivity.class);
-                            startActivity(intent);
                             break;
                         case 10:
                             signOut();
@@ -203,37 +195,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onStart() {
         super.onStart();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
 
-            //GoogleSignInResult result = opr.get();
-            //handleSignInResult(result);
-        } else {
-            signIn();
-
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-
-        }
     }
 
     private void signIn() {
         Intent intent = new Intent(this, AuthActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_CODE);
     }
 
     public void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                status -> {
-                });
-
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> {
+        });
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CODE) {
+            finish();
+        }
     }
 }
