@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -77,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             titlesFragment = new TitlesFragment();
             ft.replace(R.id.container, titlesFragment, TitlesFragment.class.getName()).commit();
         } else ft.replace(R.id.container, titlesFragment).commit();
-
-
     }
 
 
@@ -195,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     private void signIn() {
